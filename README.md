@@ -6,7 +6,7 @@ Reproduce experiments on two-stage residual control for **bimanual insertion mai
 
 ## Run an experiment
 
-**On GitHub:** Open **Actions → Run paper experiment → Run workflow**, select an experiment and start it on `main`. Choose `results` to reconstruct the timing comparison and verify the receiving-hand contact intervention. Choose **`end-to-end`** to regenerate all held-out trajectories in MuJoCo, simulate the contact intervention, train six three-seed policy ensembles, and score the validation-selected models on the newly generated observations. For a quick physics check choose `native-smoke`. Numerical reports appear in the job log or its downloadable artifact. The workflow uses Linux CPU runners.
+**On GitHub:** Open [Run paper experiment](https://github.com/BitAdventurer/bimanual-contact-feedback/actions/workflows/experiments.yml), click **Run workflow**, select an experiment and start it on `main`. Choose `results` to reconstruct the timing comparison and verify the receiving-hand contact intervention. Choose **`end-to-end`** to regenerate all held-out trajectories in MuJoCo, simulate the contact intervention, train six three-seed policy ensembles, and score the validation-selected models on the newly generated observations. For a quick physics check choose `native-smoke`. Numerical reports appear in the job log or its downloadable artifact. The workflow uses Linux CPU runners.
 
 **Locally**, from this directory, the shortest path to the paper's timing comparison is:
 

@@ -36,6 +36,28 @@ Success requires the full peg cross-section to pass through the socket plate, in
 | Whole test grid | 11,520/11,520 terminal labels; 57,600/57,600 guard decisions at each endpoint |
 | Whole-grid label SHA-256 (native reference order, uint8) | `e7633d124d0cf70dfb43385dec252a8e437ea208570391b9c1efb3074be9bd61` |
 
+### Numerical comparison across hosts
+
+Every archived terminal label and all ten component decisions per branch must match exactly in both modes. One disagreement fails the run, including a threshold crossing caused by a small continuous error. The reported continuous comparison covers the archived **canonical family**. It checks each element against `atol + rtol × |reference element|`. Shape mismatches and nonfinite values fail.
+
+| Canonical measurement | Unit | Absolute tolerance | Relative tolerance |
+| --- | --- | ---: | ---: |
+| B joint angle / angular velocity | rad / rad s⁻¹ | 10⁻⁷ in each unit | 0 |
+| B wrench force / torque | N / N m | 10⁻⁷ in each unit | 0 |
+| A and B hand normal-force maps | N per cell | 10⁻⁷ | 0 |
+| Endpoint depth and wall clearance | mm | 10⁻⁶ | 0 |
+| Endpoint relative angle | rad | 10⁻⁷ | 0 |
+| Endpoint pad–handle normal force | N per pad | 10⁻⁶ | 10⁻⁶ |
+
+The observation check uses the study's 10⁻⁷ native-unit sensor difference scale. Endpoint distance and angle errors are checked separately against the 0.10 mm clearance and 0.10 rad angle criteria. For endpoint grip forces, the 1 µN floor is 1/10,000 of the 0.01 N grip criterion. The relative term allows 1 ppm of the **individual** recorded pad's load. On a 20 N contact that gives a 21 µN total allowance. The grip decision itself still uses the exact 0.01 N threshold at each endpoint.
+
+`--strict` on `smoke` or `test-grid` requires bit-identical canonical float arrays in addition to the exact discrete checks. Each JSON report retains the original per-array `canonical_max_abs`, the historical untyped `max_abs < 1e-6` diagnostic, per-channel limits and exceedance counts, and canonical bit equality. This lets different hosts report their actual numerical disagreement even when all physical outcomes reproduce. Progress for the full grid goes to standard error every 32 physical profiles. Standard output remains a JSON document.
+
+```sh
+python simulation/replay.py smoke --strict
+python -m unittest simulation.test_replay_audit
+```
+
 ## Run a closed-loop policy
 
 ```python

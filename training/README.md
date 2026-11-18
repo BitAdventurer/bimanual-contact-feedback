@@ -9,7 +9,7 @@ The reference fit used Linux x86-64, CPython 3.8.20, NumPy 1.22.4, SciPy 1.10.1 
 ```sh
 python3.8 -m venv .venv-training
 . .venv-training/bin/activate
-python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.4.1
+python -m pip install --only-binary=:all: --no-deps --index-url https://download.pytorch.org/whl/cpu torch==2.4.1
 python -m pip install -r training/requirements.txt
 
 python training/run.py smoke

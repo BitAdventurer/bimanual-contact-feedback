@@ -11,9 +11,11 @@ import sys
 import numpy as np
 
 if __package__:
+    from .audit import compare_canonical, verification_passed
     from .physics import Panda, simulate_family
     from .task import DATA, TEST_MATERIALS, family_row
 else:
+    from audit import compare_canonical, verification_passed
     from physics import Panda, simulate_family
     from task import DATA, TEST_MATERIALS, family_row
 
@@ -66,16 +68,6 @@ def read_reference():
         return {k: f[k] for k in f.files}
 
 
-def numerical_comparison(data, reference):
-    max_error = {}
-    for key in reference:
-        if not key.startswith("smoke_") or key == "smoke_id":
-            continue
-        name = key[6:]
-        max_error[name] = float(np.abs(data[name] - reference[key]).max())
-    return max_error
-
-
 def compare(data, reference, idx):
     before = criterion(data, "before_")
     after = criterion(data, "after_")
@@ -110,6 +102,11 @@ def write_npz(path, data):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=("smoke", "family", "test-grid"))
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Require bit-identical canonical continuous values in addition to exact terminal labels and guard decisions.",
+    )
     parser.add_argument("--layout", type=int, default=7)
     parser.add_argument("--variant", type=int, default=27)
     parser.add_argument("--mass", type=float, default=1.125)
@@ -136,6 +133,10 @@ def main():
     args = parser.parse_args()
     if args.workers < 1:
         parser.error("--workers must be positive")
+    if args.strict and args.command == "family":
+        parser.error(
+            "--strict applies to the reference comparisons smoke and test-grid."
+        )
     for path in (args.output, args.report):
         if path is not None and path.exists():
             parser.error(f"Output already exists: {path}")
@@ -187,7 +188,7 @@ def main():
         joined = {}
         differences = []
         labels = []
-        smoke_error = {}
+        canonical = None
         try:
             for job, data in zip(jobs, rows):
                 if reference is None:
@@ -205,8 +206,14 @@ def main():
                 ):
                     differences.append(meta["family_id"])
                 if meta["family_id"] == str(reference["smoke_id"]):
-                    smoke_error = numerical_comparison(data, reference)
+                    canonical = compare_canonical(data, reference)
                 labels.append((idx, data["success"].copy()))
+                if not single and len(labels) % 32 == 0:
+                    print(
+                        f"Simulated and checked {len(labels)}/{len(jobs)} profiles",
+                        file=sys.stderr,
+                        flush=True,
+                    )
                 if args.output:
                     for k, v in dict(data, **meta).items():
                         joined.setdefault(k, []).append(v)
@@ -221,6 +228,8 @@ def main():
                 np.ascontiguousarray(value, dtype=np.uint8).tobytes()
             ).hexdigest()
 
+        if canonical is None:
+            raise RuntimeError("The canonical reference family was not evaluated.")
         report = dict(
             families=len(jobs),
             physical_branches=len(jobs) * 45,
@@ -229,9 +238,14 @@ def main():
             simulated_label_sha256=digest(ordered),
             reference_label_sha256=digest(original),
             discrepant_families=differences,
-            canonical_max_abs=smoke_error,
+            canonical_max_abs={
+                name: item["max_abs"] for name, item in canonical["fields"].items()
+            },
+            canonical_continuous=canonical,
+            exact_discrete=not differences,
+            continuous_check_mode="bit-exact" if args.strict else "unit-aware",
         )
-        report["passed"] = not differences and max(smoke_error.values()) < 1e-6
+        report["passed"] = verification_passed(differences, canonical, args.strict)
         write_npz(args.output, {k: np.stack(v) for k, v in joined.items()})
     message = json.dumps(report, indent=2)
     if args.report:

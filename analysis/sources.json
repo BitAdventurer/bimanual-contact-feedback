@@ -1,0 +1,10 @@
+{
+  "material": {
+    "cooperative_panda_domain_data_v93r/test.npz": "e009830ddda73a24660cc421a64de6d6bf0639413a8eb21378e207a781380086",
+    "cooperative_panda_domain_learning_v93r/test_predictions.csv": "be6dc0c8e996e0d55d642dcf91908184e204008d18ef778d69187224f35ac56a"
+  },
+  "fresh": {
+    "cooperative_panda_new_resets_v93/test.npz": "d918e06158a34ea6aa2b6e0a827194da0e3a986be7f725ad3df14cadd25ca67c",
+    "cooperative_panda_new_resets_v93/dr_actions.csv": "f2e6b1ae676f3470088c4a3218d7e30f8e1f819cb3dd1622af0a9c66eff21233"
+  }
+}

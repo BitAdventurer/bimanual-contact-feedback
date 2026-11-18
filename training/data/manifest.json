@@ -1,0 +1,79 @@
+{
+  "train": {
+    "file": "train.npz",
+    "sha256": "3b0bddba2424cb5d4a46ef524b6f1692d407bcba678ac2e09ed13b894689fff7",
+    "source_archive_sha256": "16c67760844357c8cfd096d4a8a23d472b06d0f299983678589dae49014c5eb5",
+    "rows": 256,
+    "layouts": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "materials": [
+      "m1000_f060",
+      "m1000_f100",
+      "m1250_f060",
+      "m1250_f100",
+      "m1500_f060",
+      "m1500_f100",
+      "m1750_f060",
+      "m1750_f100"
+    ],
+    "bytes": 2987487
+  },
+  "nominal_train": {
+    "file": "nominal_train.npz",
+    "sha256": "05327ca6de748570c216cc3cced27432f98e5ea00923fd19a363b2cdc59e14e2",
+    "source_archive_sha256": "4265f5647eb3f54d8d96db7528f752a3d584fbe5e287fc2b97cb2df73966105f",
+    "rows": 256,
+    "layouts": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "materials": [
+      "m1000_f100"
+    ],
+    "bytes": 2924258
+  },
+  "validation": {
+    "file": "validation.npz",
+    "sha256": "ee2ce5fa60964412ab5b5e9b1e3c8943bf33cb598bbb80e1b63fed2eb987f265",
+    "source_archive_sha256": "a4125b89cd08686ffe49271e6158c12638569c272fefb9b91e08507e390200cc",
+    "rows": 64,
+    "layouts": [
+      5,
+      6
+    ],
+    "materials": [
+      "m1000_f060",
+      "m1000_f100",
+      "m1250_f060",
+      "m1250_f100",
+      "m1500_f060",
+      "m1500_f100",
+      "m1750_f060",
+      "m1750_f100"
+    ],
+    "bytes": 735769
+  },
+  "test": {
+    "file": "test.npz",
+    "sha256": "0ae440ba04eaea6b063fd8cff215ae536ac70b2e89e8b6f584cdcb2eae9c6e1c",
+    "source_archive_sha256": "e009830ddda73a24660cc421a64de6d6bf0639413a8eb21378e207a781380086",
+    "rows": 256,
+    "layouts": [
+      7,
+      8
+    ],
+    "materials": [
+      "m1125_f080",
+      "m1375_f080",
+      "m1500_f060",
+      "m1625_f080"
+    ],
+    "bytes": 3009267
+  }
+}

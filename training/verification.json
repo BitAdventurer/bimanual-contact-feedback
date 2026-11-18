@@ -1,0 +1,242 @@
+{
+  "scope": "From-scratch CPU fits on the bundled split archives, selected on common randomized validation before opening test arrays.",
+  "reference_environment": {
+    "platform": "Linux x86_64",
+    "python": "3.8.20",
+    "numpy": "1.22.4",
+    "scipy": "1.10.1",
+    "torch": "2.4.1+cpu",
+    "cpu_threads_per_fit": 1
+  },
+  "full_command": "python training/run.py fit --out runs/contact --workers 5 --controls",
+  "data_manifest_sha256": "ba682f96878ae160614ee175f1a80ac3c4041f5072ad56cdf97a54696dd3fdb2",
+  "selected_updates": {
+    "randomized/ppo/bilateral": 192,
+    "randomized/supervised/bilateral": 144,
+    "randomized/ppo_committed/bilateral": 144,
+    "randomized/ppo/joints": 144,
+    "randomized/ppo/totals": 192,
+    "nominal/ppo/bilateral": 144
+  },
+  "reference_checkpoint_verification": {
+    "selected_seed_checkpoints": 18,
+    "exported_actor_tensors_equal": 198,
+    "identical_sampled_PPO_transitions": 1105920
+  },
+  "scoring": {
+    "smoke": false,
+    "selected_sha256": "f0c953c734c2a6805aaa1f04ebc486f27281b4b4b9cf4a84ce026e8f81516810",
+    "policies": {
+      "randomized/ppo/bilateral": {
+        "interpolated": 709,
+        "interpolated_n": 960,
+        "familiar": 244,
+        "familiar_n": 320,
+        "by_material": {
+          "m1125_f080": 239,
+          "m1375_f080": 249,
+          "m1625_f080": 221,
+          "m1500_f060": 244
+        },
+        "interpolated_by_seed": [
+          704,
+          673,
+          695
+        ]
+      },
+      "randomized/supervised/bilateral": {
+        "interpolated": 692,
+        "interpolated_n": 960,
+        "familiar": 239,
+        "familiar_n": 320,
+        "by_material": {
+          "m1125_f080": 233,
+          "m1375_f080": 243,
+          "m1625_f080": 216,
+          "m1500_f060": 239
+        },
+        "interpolated_by_seed": [
+          677,
+          588,
+          696
+        ]
+      },
+      "randomized/ppo_committed/bilateral": {
+        "interpolated": 478,
+        "interpolated_n": 960,
+        "familiar": 166,
+        "familiar_n": 320,
+        "by_material": {
+          "m1125_f080": 153,
+          "m1375_f080": 159,
+          "m1625_f080": 166,
+          "m1500_f060": 166
+        },
+        "interpolated_by_seed": [
+          468,
+          474,
+          473
+        ]
+      },
+      "randomized/ppo/joints": {
+        "interpolated": 614,
+        "interpolated_n": 960,
+        "familiar": 205,
+        "familiar_n": 320,
+        "by_material": {
+          "m1125_f080": 209,
+          "m1375_f080": 207,
+          "m1625_f080": 198,
+          "m1500_f060": 205
+        },
+        "interpolated_by_seed": [
+          610,
+          606,
+          600
+        ]
+      },
+      "randomized/ppo/totals": {
+        "interpolated": 717,
+        "interpolated_n": 960,
+        "familiar": 250,
+        "familiar_n": 320,
+        "by_material": {
+          "m1125_f080": 245,
+          "m1375_f080": 255,
+          "m1625_f080": 217,
+          "m1500_f060": 250
+        },
+        "interpolated_by_seed": [
+          721,
+          709,
+          706
+        ]
+      },
+      "nominal/ppo/bilateral": {
+        "interpolated": 462,
+        "interpolated_n": 960,
+        "familiar": 153,
+        "familiar_n": 320,
+        "by_material": {
+          "m1125_f080": 155,
+          "m1375_f080": 154,
+          "m1625_f080": 153,
+          "m1500_f060": 153
+        },
+        "interpolated_by_seed": [
+          462,
+          462,
+          462
+        ]
+      },
+      "fixed_hold": {
+        "interpolated": 460,
+        "interpolated_n": 960,
+        "familiar": 154,
+        "familiar_n": 320,
+        "by_material": {
+          "m1125_f080": 153,
+          "m1375_f080": 154,
+          "m1625_f080": 153,
+          "m1500_f060": 154
+        }
+      }
+    },
+    "randomized_minus_matched_nominal": {
+      "base_roots": 64,
+      "evaluated_futures": 960,
+      "gains": 335,
+      "losses": 88,
+      "difference_pp": 25.72916666666667,
+      "paired_ci95_pp": [
+        22.291666666666664,
+        29.374999999999996
+      ]
+    },
+    "closed_loop_alignment": {
+      "actual_history": 709,
+      "independent_history_expected": 418.0,
+      "best_fixed_pair": 544,
+      "best_followup_given_first": 862,
+      "outcome_count": 960,
+      "actual_future_by_observation_donor": [
+        [
+          97,
+          19,
+          2,
+          1,
+          1
+        ],
+        [
+          126,
+          152,
+          114,
+          107,
+          25
+        ],
+        [
+          72,
+          168,
+          170,
+          165,
+          75
+        ],
+        [
+          27,
+          125,
+          157,
+          162,
+          125
+        ],
+        [
+          0,
+          1,
+          32,
+          39,
+          128
+        ]
+      ]
+    }
+  },
+  "additional_environment": {
+    "platform": "Linux x86_64",
+    "python": "3.11.16",
+    "numpy": "1.26.4",
+    "scipy": "1.15.3",
+    "torch": "2.7.1+cu128",
+    "device": "cpu",
+    "randomized_bilateral": 700,
+    "matched_nominal_bilateral": 462,
+    "paths": 960
+  },
+  "native_reintegration": {
+    "command": "python training/run.py evaluate --run runs/contact --native-test runs/native-test.npz --json runs/contact/native-test.json",
+    "source": {
+      "kind": "native_replay",
+      "sha256": "a6b9312c11cb5610f0aed03cfc15c5ff7763bd8de1ae6e2897d4a5c8b1012eec",
+      "rows": 256,
+      "physical_leaves": 11520,
+      "initial_states_inside_guards": 239,
+      "initial_states_outside_guards": 17,
+      "physical_endpoint_checks": 115200
+    },
+    "reintegrated_label_sha256": "e7633d124d0cf70dfb43385dec252a8e437ea208570391b9c1efb3074be9bd61",
+    "terminal_labels_matching_reference": 11520,
+    "guard_comparisons_matching_reference": 115200,
+    "all_released_policy_inputs_and_labels_exact": true,
+    "all_six_ensemble_stage_actions_matching": 15360,
+    "randomized_primary": 709,
+    "matched_nominal_primary": 462,
+    "independent_history_expected": 418.0,
+    "best_committed_hindsight": 544,
+    "row_reordering_check": "Random permutation of all 256 rows restored identical observations and rewards.",
+    "invalid_grid_checks": [
+      "case identity",
+      "material assignment",
+      "pre-partner sensor history",
+      "nonfinite endpoint",
+      "terminal label inconsistency",
+      "split identity"
+    ]
+  }
+}

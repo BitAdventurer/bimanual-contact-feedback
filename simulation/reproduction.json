@@ -1,0 +1,77 @@
+{
+  "platform": "Linux x86_64",
+  "python": [
+    "3.8.20 research environment",
+    "3.10.12 fresh venv from PyPI binary wheels"
+  ],
+  "mujoco": "3.2.3",
+  "numpy": "1.22.4",
+  "robosuite_assets": "1.4.1 donor wheel installed without dependencies",
+  "assets_confirmed": 66,
+  "full_grid": {
+    "families": 256,
+    "physical_branches": 11520,
+    "checks_each_endpoint": 57600,
+    "identical_labels": 11520,
+    "identical_before_gates": 57600,
+    "identical_after_gates": 57600,
+    "simulated_label_sha256": "e7633d124d0cf70dfb43385dec252a8e437ea208570391b9c1efb3074be9bd61",
+    "reference_label_sha256": "e7633d124d0cf70dfb43385dec252a8e437ea208570391b9c1efb3074be9bd61",
+    "discrepant_families": [],
+    "canonical_max_abs": {
+      "root_proprio": 0.0,
+      "root_w": 0.0,
+      "root_p": 0.0,
+      "root_partner_p": 0.0,
+      "mid_proprio": 0.0,
+      "mid_w": 0.0,
+      "mid_p": 0.0,
+      "mid_partner_p": 0.0,
+      "before_clearance_mm": 0.0,
+      "after_clearance_mm": 0.0,
+      "before_depth_mm": 0.0,
+      "after_depth_mm": 0.0,
+      "before_pad_N": 0.0,
+      "after_pad_N": 0.0,
+      "before_angle_rad": 0.0,
+      "after_angle_rad": 0.0
+    },
+    "passed": true
+  },
+  "original_archive_by_family_id": {
+    "columns": 47,
+    "exactly_equal": 47,
+    "conditions": 256
+  },
+  "source_archive_sha256": "e009830ddda73a24660cc421a64de6d6bf0639413a8eb21378e207a781380086",
+  "canonical_smoke": {
+    "families": 1,
+    "physical_branches": 45,
+    "checks_each_endpoint": 225,
+    "identical_labels": 45,
+    "identical_before_gates": 225,
+    "identical_after_gates": 225,
+    "simulated_label_sha256": "7cd5cd8ff81014cb2d67bf77129741379c51263157ed5b3cde3eacf396b67752",
+    "reference_label_sha256": "7cd5cd8ff81014cb2d67bf77129741379c51263157ed5b3cde3eacf396b67752",
+    "discrepant_families": [],
+    "canonical_max_abs": {
+      "root_proprio": 0.0,
+      "root_w": 0.0,
+      "root_p": 0.0,
+      "root_partner_p": 0.0,
+      "mid_proprio": 0.0,
+      "mid_w": 0.0,
+      "mid_p": 0.0,
+      "mid_partner_p": 0.0,
+      "before_clearance_mm": 0.0,
+      "after_clearance_mm": 0.0,
+      "before_depth_mm": 0.0,
+      "after_depth_mm": 0.0,
+      "before_pad_N": 0.0,
+      "after_pad_N": 0.0,
+      "before_angle_rad": 0.0,
+      "after_angle_rad": 0.0
+    },
+    "passed": true
+  }
+}

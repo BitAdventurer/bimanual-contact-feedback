@@ -1,0 +1,47 @@
+{
+  "trajectory_frame": 740,
+  "archives": {
+    "1": {
+      "model.xml": "243fd9f642b4e45ca4986a62464530157656c609659aa23748ee9f55813eadcc",
+      "trajectory.npz": "3bc3f7bb0696c561904d6361b8665291acbbb79228dcf3d5a3894c3f1ad86dd1"
+    },
+    "2": {
+      "model.xml": "e7b22dc4c8d2415376da47e997361866c73aae5404702f6865d53edf766ae33d",
+      "trajectory.npz": "3c011c16fd66fc1a56f71a5c680f45029b0a751043c4cd925e92c6e669174728"
+    },
+    "3": {
+      "model.xml": "eb88464468a9ee8e288f050ecd2b309db9b6cf7abc6b0e1fca41169879965292",
+      "trajectory.npz": "a0b79ac1658b032e23219c8938791044072e7afcaa0ea2c05fc0d3626a415fe9"
+    },
+    "4": {
+      "model.xml": "8308de67e1568c2121382f92748da7a2a59d161941b4047f0fd427fd3fad37ab",
+      "trajectory.npz": "c8152f20e6e23466b88f170985c2a18821c61547d380776706acd00e20849f26"
+    },
+    "5": {
+      "model.xml": "8162538e948c3549259144d669ea3f0d3f5f8e135578ac8fd90c1083384c4fd4",
+      "trajectory.npz": "9931c87b806095011f2180f327310c13a6b556febdb998d56e67953bb52affa0"
+    },
+    "6": {
+      "model.xml": "60a42098d5bc31266a66c7baff9f28f0450af294ab279499f66ccd0461dbc56a",
+      "trajectory.npz": "6513bdd2d02ca04a6d480d934f93a57d81c8f7d65c548b727c6f5d2b19b7c61a"
+    },
+    "7": {
+      "model.xml": "e5bdf7cebe037ebac0794722e4511bc5038758fe594c248a3667b56b3e4e2b3d",
+      "trajectory.npz": "3363476b784b2ff3a16be0fac3226ea4b8bdc2378cd1db882d252959d5b028a7"
+    },
+    "8": {
+      "model.xml": "4fb911849fcf6133f0c9de304ffd0790c9503d55932f7d1a74888cb9453f25e9",
+      "trajectory.npz": "4c6a9103154f4c5d345554ef76161ce058afa352230ce5cc486ca1c2ae4322eb"
+    }
+  },
+  "original_test_sha256": "e009830ddda73a24660cc421a64de6d6bf0639413a8eb21378e207a781380086",
+  "source_xml_sha": "bdf1d7b996cf98e9b76676bfdb6a6dd7fe2e2960238c9172c0c8c164c51e5458",
+  "assets_from": "robosuite 1.4.1; 66 installed files match the wheel RECORD",
+  "data_sha256": {
+    "reference.npz": "194e4a30a313952f39df9063a7aaaa4f4f92e1deecf97eb982ad46ff77ab6a69",
+    "layouts.json": "a9c40afd6ef2ff791fee7cf8a95d2e93ed57e5cf855fb9d703b00447b9e4771f",
+    "scene.xml": "a6cf576a682c2d20dfee0e096fbf9a8712af96104e54a618f3a2c6950613bc6a",
+    "initial.npz": "b5a205746538678e3f3abb158a49384433d67b395348638dccae1d26c444d969",
+    "assets.sha256.json": "fb0c005d1bf229d1204b0dd26c92dfc7a4ff446ea6349cbb28190c9563cf27e0"
+  }
+}

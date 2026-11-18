@@ -23,6 +23,8 @@ permissions:
 jobs:
   experiment:
     runs-on: ubuntu-22.04
+    # Official CPython 3.8.20 Bookworm image; the hosted tool cache omits this release.
+    container: python:3.8.20-bookworm@sha256:d411270700143fa2683cc8264d9fa5d3279fd3b6afff62ae81ea2f9d070e390c
     timeout-minutes: 120
     defaults:
       run:
@@ -33,9 +35,8 @@ jobs:
       MKL_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.8.20'
+      - name: Verify the reference interpreter
+        run: python -c "import sys; assert sys.version_info[:3] == (3, 8, 20)"
       - name: Prepare output directory
         run: mkdir -p runs
       - name: Install analysis dependencies
@@ -49,6 +50,8 @@ jobs:
       - name: Install the simulator and mesh assets
         if: startsWith(inputs.experiment, 'native-') || inputs.experiment == 'end-to-end'
         run: |
+          apt-get update -qq
+          apt-get install -y --no-install-recommends libgl1 libegl1 libglfw3
           python -m pip install -r simulation/requirements.txt
           python -m pip install --no-deps robosuite==1.4.1
       - name: Replay 45 physical branches

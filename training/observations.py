@@ -5,7 +5,6 @@ import hashlib
 import json
 
 import numpy as np
-from scipy.linalg import eigh
 
 DATA = Path(__file__).resolve().parent / "data"
 GRID = np.repeat([0.001, 0.01], 7)
@@ -61,6 +60,8 @@ def matrix(data, stage, key, selection=None):
 
 
 def fit_projector(x):
+    from scipy.linalg import eigh
+
     mean, std = x.mean(0), x.std(0)
     scale = np.maximum(std, max(1e-8, 1e-3 * np.sqrt(np.mean(std**2))))
     centered = np.clip((x - mean) / scale, -8, 8)

@@ -6,7 +6,7 @@ Reproduce experiments on two-stage residual control for **bimanual insertion mai
 
 ## Run an experiment
 
-**On GitHub:** Open [Run paper experiment](https://github.com/BitAdventurer/bimanual-contact-feedback/actions/workflows/experiments.yml), click **Run workflow**, select an experiment and start it on `main`. Choose `results` to reconstruct the timing comparison and verify the receiving-hand contact intervention. Choose **`end-to-end`** to regenerate all held-out trajectories in MuJoCo, simulate the contact intervention, train six three-seed policy ensembles, and score the validation-selected models on the newly generated observations. For a quick physics check choose `native-smoke`. Numerical reports appear in the job log or its downloadable artifact. The workflow uses Linux CPU runners. The quick readout took 40 seconds on GitHub. Allow roughly half an hour for the full workflow on a two-worker hosted run; native simulation accounts for most of that time.
+**On GitHub:** Open [Run paper experiment](https://github.com/BitAdventurer/bimanual-contact-feedback/actions/workflows/experiments.yml), click **Run workflow**, select an experiment and start it on `main`. Choose `results` to reconstruct the timing comparison, verify the receiving-hand contact intervention, and score the paper's 18 locked actor checkpoints on their original test observations. Choose **`end-to-end`** to regenerate all held-out trajectories in MuJoCo, simulate the contact intervention, train six three-seed policy ensembles, and score the validation-selected models on the newly generated observations. For a quick physics check choose `native-smoke`. Numerical reports appear in the job log or its downloadable artifact. The workflow uses Linux CPU runners. The quick readout took 40 seconds on GitHub. Allow roughly half an hour for the full workflow on a two-worker hosted run; native simulation accounts for most of that time.
 
 **Locally**, from this directory, the shortest path to the paper's timing comparison is:
 
@@ -16,6 +16,7 @@ source .venv/bin/activate
 python -m pip install -r analysis/requirements.txt
 python analysis/reproduce.py
 python mechanism/verify.py
+python training/run.py evaluate --run training/reference --json runs/paper-checkpoints.json
 ```
 
 | Experiment | What is executed | Where to start |
@@ -67,6 +68,6 @@ Open `runs/full/native-test.json` for the trained policy scores and `runs/full/n
 
 “Independent history” is an exact average over the five possible histories, including a possible match. “Best fixed” uses all outcome labels after the fact and bounds an action pair that cannot react to partner motion. The terminal outcome measures engagement and grip over a short simulated maintenance interval. A wrist or total-force signal can carry much of the same information as the spatial maps. The fresh-reset packet supports the timing readout; the native grid replays the archived held-out material configurations. See individual directories for scope and numerical tolerances.
 
-For the exact training counts, use the versions in the training instructions. An independent CPU fit with Python 3.11 and PyTorch 2.7 produced 700/960 for randomized PPO and 462/960 for its matched nominal counterpart.
+The timing readout uses the paper's frozen choices. Fresh training can select different actions across computers with the same Python and PyTorch versions. In a separate [GitHub CPU training run](https://github.com/BitAdventurer/bimanual-contact-feedback/actions/runs/44360999139) randomized and nominal PPO reached **716/960 and 462/960** on the same archived test paths. Switching the local OpenBLAS kernel to Haswell gave **703/960 and 462/960** on newly simulated paths. An additional Python 3.11/PyTorch 2.7 fit reached 700/960 and 462/960. These are computational replication runs on the same initial draws.
 
 The Panda meshes are supplied by the separately installed robosuite distribution. Source fingerprints for the bundled experiment data are included with each experiment.

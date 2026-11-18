@@ -1,0 +1,86 @@
+{
+  "randomized/ppo/bilateral/9201": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.4586588541666667,
+    "last_window_success": 0.82373046875
+  },
+  "randomized/ppo/bilateral/9202": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.4554036458333333,
+    "last_window_success": 0.8089192708333334
+  },
+  "randomized/ppo/bilateral/9203": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.4527994791666667,
+    "last_window_success": 0.8017578125
+  },
+  "randomized/supervised/bilateral/9201": {
+    "gradient_updates": 1536
+  },
+  "randomized/supervised/bilateral/9202": {
+    "gradient_updates": 1536
+  },
+  "randomized/supervised/bilateral/9203": {
+    "gradient_updates": 1536
+  },
+  "randomized/ppo_committed/bilateral/9201": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.3190104166666667,
+    "last_window_success": 0.5428059895833334
+  },
+  "randomized/ppo_committed/bilateral/9202": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.3372395833333333,
+    "last_window_success": 0.5437825520833334
+  },
+  "randomized/ppo_committed/bilateral/9203": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.3375651041666667,
+    "last_window_success": 0.53759765625
+  },
+  "randomized/ppo/joints/9201": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.38037109375,
+    "last_window_success": 0.669921875
+  },
+  "randomized/ppo/joints/9202": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.3701171875,
+    "last_window_success": 0.67333984375
+  },
+  "randomized/ppo/joints/9203": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.38916015625,
+    "last_window_success": 0.66748046875
+  },
+  "randomized/ppo/totals/9201": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.4069010416666667,
+    "last_window_success": 0.7960611979166666
+  },
+  "randomized/ppo/totals/9202": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.39892578125,
+    "last_window_success": 0.7864583333333334
+  },
+  "randomized/ppo/totals/9203": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.4091796875,
+    "last_window_success": 0.7742513020833334
+  },
+  "nominal/ppo/bilateral/9201": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.5066731770833334,
+    "last_window_success": 0.8479817708333334
+  },
+  "nominal/ppo/bilateral/9202": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.4903971354166667,
+    "last_window_success": 0.8515625
+  },
+  "nominal/ppo/bilateral/9203": {
+    "sampled_terminal_rewards": 73728,
+    "first_window_success": 0.4993489583333333,
+    "last_window_success": 0.8553059895833334
+  }
+}

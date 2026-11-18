@@ -238,5 +238,40 @@
       "terminal label inconsistency",
       "split identity"
     ]
+  },
+  "frozen_inference": {
+    "reference": "reference/selected.json",
+    "selection_sha256": "f0c953c734c2a6805aaa1f04ebc486f27281b4b4b9cf4a84ce026e8f81516810",
+    "files": 23,
+    "bytes": 1513715,
+    "data_sources": {
+      "bundled_test_sha256": "0ae440ba04eaea6b063fd8cff215ae536ac70b2e89e8b6f584cdcb2eae9c6e1c",
+      "new_native_grid_sha256": "277e5a063bbed3082a53bb9b7219badabd19e16924e7cda0bdc53c6cf7634103"
+    },
+    "environments": [
+      "Linux x86_64, CPython 3.8.20 with NumPy 1.22.4; isolated environment with no PyTorch or SciPy",
+      "Linux x86_64, CPython 3.8.20 with NumPy 1.22.4, OpenBLAS Haswell kernels on native grid",
+      "Linux x86_64, CPython 3.11.16 with NumPy 1.26.4 on native grid"
+    ],
+    "observations": "All policy success, per-material and per-seed results, paired contrasts and response-alignment matrices agreed in all four checks."
+  },
+  "hosted_from_scratch": {
+    "platform": "GitHub-hosted Linux x86_64 CPU",
+    "python": "3.8.20",
+    "numpy": "1.22.4",
+    "scipy": "1.10.1",
+    "torch": "2.4.1+cpu",
+    "runner_result_sha256": "389ec06b685e00b4d4904fd833c1529fd05e3317fccae595829a028cad91f69c",
+    "selected_sha256": "f9e0d617396d940642db31048be2d9d3c6650deec099849283f06afb41eb5083",
+    "cohort": "Three interpolated materials, 960 evaluations",
+    "interpolated": {
+      "randomized/ppo/bilateral": 716,
+      "randomized/supervised/bilateral": 692,
+      "randomized/ppo_committed/bilateral": 478,
+      "randomized/ppo/joints": 610,
+      "randomized/ppo/totals": 718,
+      "nominal/ppo/bilateral": 462,
+      "fixed_hold": 460
+    }
   }
 }

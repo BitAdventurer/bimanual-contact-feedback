@@ -47,6 +47,7 @@ jobs:
         run: |
           python analysis/reproduce.py --output runs/alignment.json
           python mechanism/verify.py | tee runs/contact-cut.json
+          python training/run.py evaluate --run training/reference --json runs/paper-checkpoints.json
       - name: Install the simulator and mesh assets
         if: startsWith(inputs.experiment, 'native-') || inputs.experiment == 'end-to-end'
         run: |

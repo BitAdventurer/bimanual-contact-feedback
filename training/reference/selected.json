@@ -1,0 +1,118 @@
+{
+  "smoke": false,
+  "settings": {
+    "updates": 192,
+    "batch_episodes": 384,
+    "epochs": 4,
+    "minibatch": 192,
+    "learning_rate": 0.0005,
+    "ppo_clip_ratio": 0.2,
+    "value_coefficient": 0.5,
+    "entropy_coefficient": 0.01,
+    "gradient_norm": 0.5,
+    "checkpoints": [
+      48,
+      96,
+      144,
+      192
+    ]
+  },
+  "seeds": [
+    9201,
+    9202,
+    9203
+  ],
+  "selected": {
+    "randomized/ppo/bilateral": {
+      "step": 192,
+      "paths": [
+        "randomized/bilateral/ppo/9201/step_192.npz",
+        "randomized/bilateral/ppo/9202/step_192.npz",
+        "randomized/bilateral/ppo/9203/step_192.npz"
+      ],
+      "regime": "randomized",
+      "mode": "bilateral",
+      "method": "ppo"
+    },
+    "randomized/supervised/bilateral": {
+      "step": 144,
+      "paths": [
+        "randomized/bilateral/supervised/9201/step_144.npz",
+        "randomized/bilateral/supervised/9202/step_144.npz",
+        "randomized/bilateral/supervised/9203/step_144.npz"
+      ],
+      "regime": "randomized",
+      "mode": "bilateral",
+      "method": "supervised"
+    },
+    "randomized/ppo_committed/bilateral": {
+      "step": 144,
+      "paths": [
+        "randomized/bilateral/ppo_committed/9201/step_144.npz",
+        "randomized/bilateral/ppo_committed/9202/step_144.npz",
+        "randomized/bilateral/ppo_committed/9203/step_144.npz"
+      ],
+      "regime": "randomized",
+      "mode": "bilateral",
+      "method": "ppo_committed"
+    },
+    "randomized/ppo/joints": {
+      "step": 144,
+      "paths": [
+        "randomized/joints/ppo/9201/step_144.npz",
+        "randomized/joints/ppo/9202/step_144.npz",
+        "randomized/joints/ppo/9203/step_144.npz"
+      ],
+      "regime": "randomized",
+      "mode": "joints",
+      "method": "ppo"
+    },
+    "randomized/ppo/totals": {
+      "step": 192,
+      "paths": [
+        "randomized/totals/ppo/9201/step_192.npz",
+        "randomized/totals/ppo/9202/step_192.npz",
+        "randomized/totals/ppo/9203/step_192.npz"
+      ],
+      "regime": "randomized",
+      "mode": "totals",
+      "method": "ppo"
+    },
+    "nominal/ppo/bilateral": {
+      "step": 144,
+      "paths": [
+        "nominal/bilateral/ppo/9201/step_144.npz",
+        "nominal/bilateral/ppo/9202/step_144.npz",
+        "nominal/bilateral/ppo/9203/step_144.npz"
+      ],
+      "regime": "nominal",
+      "mode": "bilateral",
+      "method": "ppo"
+    }
+  },
+  "files": {
+    "randomized/encoder.npz": "45033c3672a5051abaf819bd90e3e65a9fdbeebc850c595b0a3051057fe6e82c",
+    "randomized/bilateral/ppo/9201/step_192.npz": "aaef90e48f9442e89e3b07310deefe9db401116db05d74c25c993b8a4ddf4ee7",
+    "randomized/bilateral/ppo/9202/step_192.npz": "d42482a5071edc748288f1437710f4942fe22e93f9ca67092f6fc0badfdb38f4",
+    "randomized/bilateral/ppo/9203/step_192.npz": "52ec60885274d57066dd6bee4a7c177fdd2d2455228dae59fff2776e58c56aef",
+    "randomized/bilateral/supervised/9201/step_144.npz": "cdd947f2687c3da57cc56cfaf6775afa8af569bcbb4818baa2c118f650211d00",
+    "randomized/bilateral/supervised/9202/step_144.npz": "15c9ec363b66a9e71eb103f3378685547eff250e2bb7a735670803de66f403da",
+    "randomized/bilateral/supervised/9203/step_144.npz": "5e3b0065dd73489a2862961602ad3217c804241920ed33495775255c81755908",
+    "randomized/bilateral/ppo_committed/9201/step_144.npz": "d10f2db20133da876147f474e3c48258d156b3663a1c1fe0fe32ecd07965b975",
+    "randomized/bilateral/ppo_committed/9202/step_144.npz": "c5594d73bd5362e1966cb099ad1ad7b86269092db117ee51ca575fa86825350d",
+    "randomized/bilateral/ppo_committed/9203/step_144.npz": "3c38b984f0cd0c393f52781df8ed9e7ed559539c057d0a9b53727ca0924e965d",
+    "randomized/joints/ppo/9201/step_144.npz": "760fc0719794eafa5499e67d25421e2405dcc8a380b06c896957d322aa2477e2",
+    "randomized/joints/ppo/9202/step_144.npz": "3f45df0e76c680566c8239c93560d7d9b7ac5da8a66d58f746995d4b39988e7a",
+    "randomized/joints/ppo/9203/step_144.npz": "fd54fc8692c6a732c6ee44e592781dd6ce1238a1c299460372be5f8fab9b93dc",
+    "randomized/totals/ppo/9201/step_192.npz": "732e32554bf3f7669a2ee648059f6d5c00ff43ea5fe9c49707b54486ee25c1eb",
+    "randomized/totals/ppo/9202/step_192.npz": "969e34f83d00cb57822fc730e2c72b4ff9fdb9015714e7ebb6821a0af0eacc46",
+    "randomized/totals/ppo/9203/step_192.npz": "b80b703c0f36247be2e7d32cd5abb8415d354919aa72e14824248f819a3119c5",
+    "nominal/encoder.npz": "9d931fa55848c25e42697e0e9e732eda5c787e991a05c05e4d06e8a8c1bcc9af",
+    "nominal/bilateral/ppo/9201/step_144.npz": "1ee2fb5a4270d471533baa8d1766a4c8ddcadc8895d247dd7b9ccf8a3fc7c37a",
+    "nominal/bilateral/ppo/9202/step_144.npz": "fcbb2bd973d720b48244923ba9086e60c90b1e8fa255ea7d368db2c34fe317e9",
+    "nominal/bilateral/ppo/9203/step_144.npz": "1966a2d6720f96f8044041fd6cfb5a7c2ca6d6ef10a7b780e68624c7daf782b3",
+    "training_summary.json": "3ee189996273b5600fe0902ab74ae70010bdb0fd6263d31a7a763bdee66aa07c",
+    "validation.json": "2ef826a924d4d9d8c7a8e3f755fc9ab9f238cbe223b48f8913205955b943712f"
+  },
+  "dataset_manifest": "ba682f96878ae160614ee175f1a80ac3c4041f5072ad56cdf97a54696dd3fdb2"
+}

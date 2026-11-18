@@ -2,7 +2,19 @@
 
 Arm A holds the pin and moves after arm B makes its first correction. B holds the socket and chooses a second correction from its joint history and the two hands’ contact maps. Train on the provided simulated transitions and measure whether the learned response preserves insertion. The training and evaluation commands use CPU only.
 
-## Run from the repository root
+## Evaluate the paper's frozen policies
+
+From the repository root, use a Python environment with NumPy installed. This path performs actual policy inference. The stage-one network chooses a first action, the stage-two network sees only the history reached by that action, and the evaluator scores the selected terminal branch.
+
+```sh
+python training/run.py evaluate --run training/reference --json paper-checkpoints.json
+```
+
+To score the same weights on a new simulation grid, add `--native-test runs/native-test.npz` and use a different JSON output name. The packaged [checkpoint lock](reference/selected.json) contains the model selection and hashes. Its 22 referenced files are the 18 validation-selected actor checkpoints, two training-fitted sensor transforms and two training/validation records. All 198 actor tensors matched the original selected experiment checkpoints exactly. The bundle occupies 1,513,715 bytes including the lock. It lets a reader evaluate the published policies independently of the numerical variation introduced by training again.
+
+Frozen inference reproduced all six reported ensemble scores on the bundled data and on a newly integrated 11,520-branch grid. The latter also reproduced the 418 expected successes with an independently selected history, the 544 committed hindsight bound and 709 with the aligned history. This was checked on NumPy 1.22.4 and 1.26.4 in separate environments. An isolated NumPy-only run verified that evaluation requires neither PyTorch nor SciPy.
+
+## Train from the repository root
 
 The reference fit used Linux x86-64, CPython 3.8.20, NumPy 1.22.4, SciPy 1.10.1 and PyTorch 2.4.1+cpu. A separate virtual environment isolates these versions from the simulator.
 
@@ -60,4 +72,4 @@ The randomized ensemble gained 335 successes and lost 88 relative to matched nom
 
 With the randomized policy fixed, replacing the realized history by an independently selected history from the same initial draw, material and chosen first action produced an expected 418 successes. The best precommitted action pair chosen retrospectively for each draw and material could reach 544. Aligned histories gave 709, compared with an upper bound of 862 given the learned first action and optimal hindsight follow-up. The evaluation report includes the complete actual-motion by history-donor table.
 
-The pinned fit reproduced every tensor in 18 selected reference checkpoints. A separate fit using Python 3.11.16, NumPy 1.26.4, SciPy 1.15.3 and PyTorch 2.7.1 scored 700/960 randomized and 462/960 nominal on CPU. Use the reference environment to reproduce the paper's counts. The checked results are in [verification.json](verification.json). The [data dictionary](data/README.md) documents each array and its units.
+The local reference fit reproduced every tensor in the 18 selected paper checkpoints. On an independent GitHub-hosted CPU using the same pinned software versions, training from scratch gave 716/960 for randomized PPO and 462/960 for matched nominal PPO. Another local fit, with Python 3.11.16, NumPy 1.26.4, SciPy 1.15.3 and PyTorch 2.7.1, gave 700/960 and 462/960. The seeds and versions do not fully determine training outcomes across numerical kernels. To evaluate the paper's particular learned policies, use `--run training/reference`. The checked results are in [verification.json](verification.json). The [data dictionary](data/README.md) documents each array and its units.

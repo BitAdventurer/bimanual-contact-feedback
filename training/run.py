@@ -12,7 +12,6 @@ for variable in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS"):
     os.environ[variable] = "1"
 
 import numpy as np
-from agent import fit as fit_one
 from native_grid import load_native_test
 from observations import DATA, arrays, digest, features, fit_projectors, load_split
 from scoring import (
@@ -51,6 +50,8 @@ def paths_for(regime, mode, method, step, seeds):
 
 
 def train(out, workers, controls=False, smoke=False):
+    from agent import fit as fit_one
+
     if out.exists():
         raise FileExistsError(f"Choose a new output directory: {out}")
     out.mkdir(parents=True)

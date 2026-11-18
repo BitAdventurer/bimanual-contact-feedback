@@ -53,6 +53,8 @@ The observation check uses the study's 10⁻⁷ native-unit sensor difference sc
 
 `--strict` on `smoke` or `test-grid` requires bit-identical canonical float arrays in addition to the exact discrete checks. Each JSON report retains the original per-array `canonical_max_abs`, the historical untyped `max_abs < 1e-6` diagnostic, per-channel limits and exceedance counts, and canonical bit equality. This lets different hosts report their actual numerical disagreement even when all physical outcomes reproduce. Progress for the full grid goes to standard error every 32 physical profiles. Standard output remains a JSON document.
 
+On the local Linux test machine, selecting the OpenBLAS Haswell kernel reproduced a 9.5044 × 10⁻⁶ N canonical endpoint force difference with exact guard decisions and a passing unit-aware check. Selecting its Nehalem kernel retained the same guard decisions but exceeded the limits in five endpoint distance or angle values. These kernel checks used the same pinned package versions.
+
 ```sh
 python simulation/replay.py smoke --strict
 python -m unittest simulation.test_replay_audit

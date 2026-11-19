@@ -4,6 +4,14 @@ Reproduce experiments on two-stage residual control for **bimanual insertion mai
 
 [Read the companion research manuscript (PDF)](paper/bimanual_contact_feedback.pdf).
 
+## Watch the simulation
+
+[![Same simulated grasp and pin motion, comparing a hold with the learned follow-up correction](paper/media/follow-up-comparison.gif)](paper/media/follow-up-comparison.mp4)
+
+**Same state, two follow-ups.** Both branches start with the same grasp, the same rightward socket correction and the same leftward pin motion. Holding the socket reference fails the insertion check. The frozen policy selects a leftward correction and passes both the immediate and settled checks. This is the first recovery example in the released material-test order. Across that cohort the learned follow-up recovered 235 of 486 hold failures and preserved all 474 hold successes (Table I). [Full-resolution comparison (MP4, 13 s)](paper/media/follow-up-comparison.mp4) · [Replay measurements](paper/media/follow-up-comparison.json)
+
+[Watch the two arms approach, grasp and bring the parts together (MP4, 8 s)](paper/media/grasp-acquisition.mp4). This separate clip shows the scripted setup of a new-grasp trial before the learned controller acts.
+
 ## Run an experiment
 
 **On GitHub:** Open [Run paper experiment](https://github.com/BitAdventurer/bimanual-contact-feedback/actions/workflows/experiments.yml), click **Run workflow**, select an experiment and start it on `main`. Choose `results` to reconstruct the timing comparison, verify the receiving-hand contact intervention, and score the paper's 18 locked actor checkpoints on their original test observations. Choose **`end-to-end`** to regenerate all held-out trajectories in MuJoCo, simulate the contact intervention, train six three-seed policy ensembles, and score the validation-selected models on the newly generated observations. For a quick physics check choose `native-smoke`. Numerical reports appear in the job log or its downloadable artifact. The workflow uses Linux CPU runners. The quick readout took 40 seconds on GitHub. Allow roughly half an hour for the full workflow on a two-worker hosted run; native simulation accounts for most of that time.

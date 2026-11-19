@@ -1,0 +1,125 @@
+{
+  "family_id": "v93r_test_07_000_test_m1125_f080",
+  "layout": 7,
+  "variant": 0,
+  "material_mass_scale": 1.125,
+  "friction_scale": 0.8,
+  "choice_rule": "First held-out material path in the released order where the recorded follow-up recovers a hold failure. Selected illustrative clip.",
+  "actions": {
+    "first_socket": "right",
+    "pin_motion": "large left",
+    "alt_1": "hold",
+    "ppo": "left"
+  },
+  "commands_mm": {
+    "layout": 7,
+    "variant_index": 0,
+    "mass_scale": 1.125,
+    "friction_scale": 0.8,
+    "offset_mm": -1.3780152115354705,
+    "common_mm": 0.6787696787732498,
+    "first_mm": 2.3074398931570297,
+    "partner_mm": 4.802667222231994,
+    "second_mm": 4.74346133681475,
+    "small_mm": 1.9746025679325288
+  },
+  "display_interval_s": 0.02,
+  "time_zero": "First correction starts after common branch preparation",
+  "second_decision_s": 0.54,
+  "insertion_checks_s": [
+    0.88,
+    1.0
+  ],
+  "both_branches_prefix_qpos_equal": true,
+  "matched_state_sha256": "35e533fb2ef9b74e46ab3b95a8684c90138b0b1482e1d6b0990627abf49d1dff",
+  "frozen_policy_decisions_verified_online": true,
+  "archived_gate_bits_verified": 20,
+  "endpoints": {
+    "hold": [
+      {
+        "ok": false,
+        "depth_mm": 25.726946856909585,
+        "clearance_mm": -0.06414400391548808,
+        "angle_rad": 0.0008952633293070715,
+        "pad_N": [
+          [
+            17.99440170723527,
+            17.72313475860684
+          ],
+          [
+            17.44875931100114,
+            18.92849622977337
+          ]
+        ],
+        "mating_N": 0.6541853424557076,
+        "full": true
+      },
+      {
+        "ok": false,
+        "depth_mm": 25.726913629720634,
+        "clearance_mm": -0.05691638411156261,
+        "angle_rad": 0.0007010391529022714,
+        "pad_N": [
+          [
+            17.94989893333385,
+            17.767521426068466
+          ],
+          [
+            17.45996027617982,
+            18.920001225339373
+          ]
+        ],
+        "mating_N": 0.5946777599085981,
+        "full": true
+      }
+    ],
+    "ppo": [
+      {
+        "ok": true,
+        "depth_mm": 25.474631475751206,
+        "clearance_mm": 2.3101013657329235,
+        "angle_rad": 0.006393043209669779,
+        "pad_N": [
+          [
+            17.779699805717815,
+            17.935990122184112
+          ],
+          [
+            17.507255975703682,
+            18.8564131587872
+          ]
+        ],
+        "mating_N": 0.0,
+        "full": true
+      },
+      {
+        "ok": true,
+        "depth_mm": 25.711739127162826,
+        "clearance_mm": 1.7691344953050248,
+        "angle_rad": 0.006746289824838863,
+        "pad_N": [
+          [
+            17.785918028350135,
+            17.928414306077144
+          ],
+          [
+            17.50918172320155,
+            18.852831535373785
+          ]
+        ],
+        "mating_N": 0.0,
+        "full": true
+      }
+    ]
+  },
+  "mujoco": "3.2.3",
+  "source_sha256": {
+    "analysis/material.npz": "a3fafd0da323ebc46d11e459c00d2e7c06dc10e871d4621b05d4461eccdd77a5",
+    "simulation/data/reference.npz": "194e4a30a313952f39df9063a7aaaa4f4f92e1deecf97eb982ad46ff77ab6a69",
+    "training/reference/randomized/encoder.npz": "45033c3672a5051abaf819bd90e3e65a9fdbeebc850c595b0a3051057fe6e82c",
+    "training/reference/randomized/bilateral/ppo/9201/step_192.npz": "aaef90e48f9442e89e3b07310deefe9db401116db05d74c25c993b8a4ddf4ee7",
+    "training/reference/randomized/bilateral/ppo/9202/step_192.npz": "d42482a5071edc748288f1437710f4942fe22e93f9ca67092f6fc0badfdb38f4",
+    "training/reference/randomized/bilateral/ppo/9203/step_192.npz": "52ec60885274d57066dd6bee4a7c177fdd2d2455228dae59fff2776e58c56aef"
+  },
+  "video_sha256": "ead6e8dd384a1e68e8c552607e7b4e59566a3c6b8ee64a9f390a4f2ae4597e23"
+}

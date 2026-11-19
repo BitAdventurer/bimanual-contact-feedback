@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use these simulations, please cite the accompanying research manuscript."
+title: "Contact-Guided Correction Selection After Partner Motion in Simulated Bimanual Insertion"
+authors:
+  - given-names: "Chanh-Hoon"
+    family-names: "Ji"
+    affiliation: "Korea University"
+repository-code: "https://github.com/BitAdventurer/bimanual-contact-feedback"
+preferred-citation:
+  type: unpublished
+  title: "Contact-Guided Correction Selection After Partner Motion in Simulated Bimanual Insertion"
+  authors:
+    - given-names: "Chanh-Hoon"
+      family-names: "Ji"
+      affiliation: "Korea University"
+  url: "https://github.com/BitAdventurer/bimanual-contact-feedback/blob/main/paper/bimanual_contact_feedback.pdf"

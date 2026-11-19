@@ -1,66 +1,115 @@
-# Contact-Guided Correction Selection After Partner Motion in Simulated Bimanual Insertion
+# Choosing the Next Correction After Partner Motion
 
-When two robot arms hold parts in contact, one arm can undo the alignment the other just achieved. Can the receiving arm feel that change and choose its next move in time? In this MuJoCo experiment, one Panda moves a pin while the other holds a socket. The socket arm makes a first correction, observes the contact response, then chooses **left, hold, or right**. Its residual PPO policy observes both hands’ pressure maps and the socket arm’s joints. The pin command is hidden.
+Code, trained policies and matched simulation replays for our [five-page paper (PDF)](paper/bimanual_contact_feedback.pdf). [Watch the replays](#matched-replays) or [reproduce the results](#reproduce-the-results).
 
-[Paper (PDF)](paper/bimanual_contact_feedback.pdf) · [Matched replays](#matched-replays) · [Results](#results) · [Run an experiment](#run-an-experiment)
+> **Contact-Guided Correction Selection After Partner Motion in Simulated Bimanual Insertion**<br>
+> Chanh-Hoon Ji, Korea University
 
-[![Two synchronized replays. After the pin moves left, holding the socket reference loses insertion while a leftward follow-up recovers it.](paper/media/follow-up-comparison.gif)](paper/media/follow-up-comparison.mp4)
+![In one simulated grasp the socket moves right, the pin moves left, and the socket policy uses both hands’ pad-force maps and its joint history to select a leftward follow-up.](paper/media/overview.png)
 
-**One grasp, two outcomes.** Both panels start with the same 2.31 mm rightward socket correction and 4.80 mm leftward pin motion. At 0.54 s the panels diverge. Holding leaves the pin outside the clearance threshold. The learned leftward correction restores 1.77 mm of clearance at the settled check. [Full-resolution replay (13 s)](paper/media/follow-up-comparison.mp4) · [Branch measurements](paper/media/follow-up-comparison.json)
+When two arms assemble parts in contact, one arm can undo the alignment the other just achieved. Can the receiving arm use that change in contact to choose its next correction within the same attempt? We test this with two Panda arms in MuJoCo, one holding a pin and the other a socket.
+
+- **First correction.** The socket arm shifts its servo reference left or right, or holds. The pin arm then makes one of five unannounced lateral motions, including a stationary command.
+- **Follow-up.** After the pin command, a residual policy trained with proximal policy optimization (PPO) chooses left, hold or right. It reads both hands’ 8 × 8 pad-force maps and the socket arm’s joint history.
+- **Matched comparison.** Restoring the same simulated grasp lets us try all nine socket-action pairs for each pin motion. We score engagement, depth, clearance, angle and grip at 0.88 s and again at 1.00 s.
 
 ## Results
 
-How much does it help to choose the follow-up *after* the partner moves? Every initial condition was replayed under five pin motions and all nine pairs of socket actions. This lets us score even the best pair one could have chosen in advance with hindsight.
+The socket policy maintained or recovered insertion on **709 of 960** material-test paths. Even with hindsight, the best pair of actions fixed before the pin moved succeeded on **544**. The fixed pair can vary across initial conditions and materials but must handle all five pin motions at that condition.
 
-| Choice of socket corrections | Held-out materials · 960 paths | New grasps · 360 paths |
+| How the socket arm chooses its follow-up | Held-out materials · 960 paths | New grasps · 360 paths |
 | --- | ---: | ---: |
-| Learned first correction, then hold | 474 (49.4%) | 188 (52.2%) |
-| Best pair fixed before the pin moves | 544 (56.7%) | 205 (56.9%) |
-| First correction, then PPO with the observed motion’s feedback | **709 (73.9%)** | **289 (80.3%)** |
-| Paired gain over the best fixed pair, percentage points [95% interval] | **+17.19 [14.79, 19.48]** | **+23.33 [20.83, 26.11]** |
+| Hold after the learned first action | 474 (49.4%) | 188 (52.2%) |
+| Best action pair fixed before pin motion | 544 (56.7%) | 205 (56.9%) |
+| **PPO with feedback from the actual motion** | **709 (73.9%)** | **289 (80.3%)** |
+| Paired gain over the best fixed pair, percentage points [95% interval] | +17.19 [14.79, 19.48] | +23.33 [20.83, 26.11] |
 
-The fixed pair can vary with initial condition and material but must cover all five motions at that condition. The material test uses 64 initial draws from two held-out grasps crossed with three material settings. The new-grasp test uses 12 newly acquired grasps with six variants apiece at nominal material. Intervals resample whole initial draws within each material-test grasp or whole new grasps. [Timing analysis and data](analysis/README.md)
+The material test uses 64 initial draws from two held-out grasps, each tested under three material settings and five motions. The second test uses 12 newly acquired grasps, each with six variants and five motions at nominal material. Intervals resample whole initial draws within each material-test grasp or whole new grasps. [Paired analysis and data](analysis/README.md)
 
-**Does the socket arm receive a directional cue through the parts?** In a separate experiment, a policy observing only socket pressure and joints chose different follow-ups for opposite pin motions in **85/96** comparisons with contact intact and **0/96** when pin–socket contact was disabled. Both hands kept their grasps. These trials end at the second decision and measure the *choice of action*. [Contact experiment and recorded force traces](mechanism/README.md)
+<p align="center"><img src="paper/media/contact-results.png" width="570" alt="Paper figure comparing fixed and feedback-guided insertion, changes in the socket-local decision when contact is cut, and insertion when socket observations are held or replaced."></p>
 
-**What do the pressure maps add?** At fixed total load, a prespecified shuffle of the socket’s 64 pressure cells reduced material-test successes from 709 to 609. Substituting the load-matched spatial pattern from the same grasp with the pin stationary gave 699. The policy is sensitive to pressure location. A separately trained socket-wrench policy reached 722/960, so the added benefit of spatial sensing over aggregate force remains open. [Sensor comparisons in the paper](paper/bimanual_contact_feedback.pdf)
+**What passes through contact?** In a separate test, a policy sensing only the socket hand chose different follow-ups for opposite pin motions in **85/96** comparisons with part contact intact and **0/96** after contact was disabled. Both hands kept their grasps. Panel (b) counts action changes. Panels (a) and (c) count insertions with contact intact. [Contact experiment](mechanism/README.md)
+
+**What do the pressure maps add?** Shuffling socket pressure locations at fixed total load reduced material-test successes from 709 to 609. Replacing the spatial distribution with that of the same grasp under a stationary pin gave 699. A separately trained wrist-wrench policy reached 722/960. The spatial layout affects the learned policy’s choices, while its benefit over aggregate force sensing remains open. [Sensor controls in the paper](paper/bimanual_contact_feedback.pdf)
 
 ## Matched replays
 
-The three examples below use the **same grasp, material and first socket correction**. Each is the first path in the released material-test order with its outcome. Before the follow-up, only the pin command varies across rows. Within a row, holding and PPO start from exactly the same post-motion state. The last column counts all material-test paths with that outcome.
+All three replays below share the grasp, the material and the first socket correction. Each is the first released material-test path with that outcome. Within a row, the two responses branch from the identical state after pin motion. Use the episode links to jump to the comparison, or click a preview to open its MP4.
 
-| Replay | Pin motion | Hold follow-up | PPO follow-up | Paths / 960 |
+| Episode | Pin command | Holding the socket reference | Learned follow-up | Material-test paths |
 | --- | --- | --- | --- | ---: |
-| [Recovery](paper/media/follow-up-comparison.mp4) | Large left | Hold · fails | Left · succeeds | 235 |
-| [Success preserved](paper/media/preserved-success.mp4) | Stationary | Hold · succeeds | Hold · succeeds | 474 |
-| [Missed recovery](paper/media/shared-failure.mp4) | Small left | Hold · fails | Hold · fails | 251 |
+| [Recovery](#recovery) | Large left | Fails | Left · succeeds | 235 |
+| [Success preserved](#success-preserved) | Stationary | Succeeds | Hold · succeeds | 474 |
+| [Missed recovery](#missed-recovery) | Small left | Fails | Hold · fails | 251 |
 
-No hold success became a failure under the learned follow-up on this cohort. On the 360 new-grasp paths there were 101 recoveries, 188 preserved successes, 71 shared failures and zero lost successes. Every success requires engagement, depth, clearance, angle and grip to pass at both 0.88 s and 1.00 s.
+The learned follow-up preserved all 474 material-test successes under hold. On the 360 new-grasp paths, it recovered 101 hold failures, preserved 188 successes, and shared 71 failures with hold. [Replay verification](scripts/verify_gallery.py)
 
-**Success preserved · stationary pin.** After its first correction the socket arm holds. The two panels coincide because the policy chooses the same action as the reference. [MP4](paper/media/preserved-success.mp4) · [Measurements](paper/media/preserved-success.json)
+### Recovery
 
-[![Identical replay branches with a stationary pin. Both keep their grasps and pass the two insertion checks.](paper/media/preserved-success.gif)](paper/media/preserved-success.mp4)
+The socket first shifts 2.31 mm right and the pin then moves 4.80 mm left. The top row keeps the socket reference fixed. The bottom row applies PPO’s 4.74 mm leftward follow-up. The numbers give signed clearance at the two scoring instants. Insertion requires at least 0.10 mm at both.
 
-**Missed recovery · small leftward pin motion.** Here the policy also holds. Both panels end with 0.063 mm clearance, below the 0.10 mm threshold. In a separate replay from that same state, the leftward correction that PPO passed up reaches 1.196 mm and passes both checks. [MP4](paper/media/shared-failure.mp4) · [Measurements for the chosen and alternative actions](paper/media/shared-failure.json)
+<p align="center"><img src="paper/media/recovery-frames.png" width="760" alt="The two branches at the shared decision and both insertion checks. Holding ends at minus 0.057 mm clearance. Shifting left ends at plus 1.769 mm."></p>
 
-[![After a small leftward pin motion the learned policy and the hold reference both hold. Both fail the insertion check.](paper/media/shared-failure.gif)](paper/media/shared-failure.mp4)
+<p align="center"><a href="paper/media/follow-up-comparison.mp4"><img src="paper/media/follow-up-comparison.gif" width="760" alt="Play the two synchronized branches. Holding loses insertion and the learned leftward correction recovers it."></a></p>
 
-[Verify the example selection, archived outcomes and video files](scripts/verify_gallery.py) with `python scripts/verify_gallery.py`.
+[Full-resolution replay (13 s)](paper/media/follow-up-comparison.mp4) · [Branch measurements](paper/media/follow-up-comparison.json)
 
-## Experimental setup
+### Success preserved
 
-![Paper Figure 1. Lateral pin motion loads the socket wall. A second socket action follows the motion, and a separate experiment interrupts only the pin-to-socket contact.](paper/media/feedback-protocol.png)
+The pin receives a stationary command. The policy holds after its first correction, just as the reference does, and both branches pass the two insertion checks. [MP4](paper/media/preserved-success.mp4) · [Measurements](paper/media/preserved-success.json)
 
-The socket policy adjusts a servo reference twice within a one-second maintenance trial. Its second decision uses three sensor samples from the first correction and three from the partner’s motion. Simulation branches share the same physical state up to the decision under comparison.
+<p align="center"><a href="paper/media/preserved-success.mp4"><img src="paper/media/preserved-success.gif" width="760" alt="Both socket responses hold with a stationary pin command and preserve insertion."></a></p>
+
+### Missed recovery
+
+The policy also holds when the pin moves 1.97 mm left. Both branches finish with only 0.063 mm clearance. In a separate replay from the same state, an available leftward correction reaches 1.196 mm and passes both checks. [MP4](paper/media/shared-failure.mp4) · [Measurements for all three actions](paper/media/shared-failure.json)
+
+<p align="center"><a href="paper/media/shared-failure.mp4"><img src="paper/media/shared-failure.gif" width="760" alt="Holding fails in both panels after a small leftward pin command."></a></p>
+
+### Contact signals
+
+What could the socket hand sense before choosing? The figure follows the first released grasp–material file in the contact-cut experiment, using the socket-local policy’s own first action (hold). The same pin-left and pin-right commands were replayed with contact intact and disabled. This is a separate grasp from the videos above.
+
+<p align="center"><img src="paper/media/contact-traces.png" width="760" alt="Opposite pin commands separate in transmitted contact force and socket-hand pad readings with contact intact. With contact disabled the transmitted force stays at zero and both commands produce a hold decision."></p>
+
+The upper traces show pin–socket normal force over 320 ms. The lower dots show the difference between the left- and right-command socket pressure maps at the three observation times. With contact intact, the rightward command produced a 2.88 N peak and a rightward follow-up. With contact disabled, both commands produced a hold. The socket-local policy also observes joint motion. [Plot from the recorded signals](mechanism/plot_traces.py) · [Experimental protocol](mechanism/README.md)
 
 <details>
-<summary>Watch the arms acquire a fresh grasp (8 s)</summary>
+<summary>View the grasp acquisition and the experimental timeline</summary>
 
-[![Two camera views show the Panda arms approaching, grasping and bringing the pin and socket together.](paper/media/grasp-acquisition.gif)](paper/media/grasp-acquisition.mp4)
+<p align="center"><a href="paper/media/grasp-acquisition.mp4"><img src="paper/media/grasp-acquisition.gif" width="760" alt="The two arms approach, grasp and engage the parts during setup of a new-grasp trial."></a></p>
 
-This separate recording shows the scripted setup of a new grasp before the learned corrections begin. [Full-resolution MP4](paper/media/grasp-acquisition.mp4)
+This separate recording shows the scripted setup before the learned corrections begin. [Grasp acquisition (MP4, 8 s)](paper/media/grasp-acquisition.mp4)
+
+![The first socket correction, unannounced pin motion and follow-up in a one-second trial. The contact-cut test preserves both finger grasps.](paper/media/feedback-protocol.png)
 
 </details>
+
+## Repository layout
+
+| Directory | Contents |
+| --- | --- |
+| [analysis](analysis/README.md) | Frozen policy choices, branch outcomes and paired uncertainty estimates. |
+| [mechanism](mechanism/README.md) | Contact-intact and contact-cut force traces, socket-local policy and native replay. |
+| [simulation](simulation/README.md) | MuJoCo scene, initial grasps, physical branches and insertion criteria. Panda meshes come from robosuite. |
+| [training](training/README.md) | Training transitions, policy controls, frozen checkpoints and validation-based model selection. |
+| [paper](paper/) | Manuscript, figures, replay videos and measurements. |
+
+## Reproduce the results
+
+From the repository root, run the following with Python and NumPy.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r analysis/requirements.txt
+python analysis/reproduce.py
+python mechanism/verify.py
+python training/run.py evaluate --run training/reference --json runs/paper-checkpoints.json
+python scripts/verify_gallery.py
+```
+
+To regenerate the contact signal figure, install Matplotlib in the same environment and run `python -m mechanism.plot_traces`. The timing readout also scores reassigned histories. Pairing an independent motion history with the same first action yields 418/960 and 161.8/360 expected successes, averaging all five possible histories including a match. [Timing analysis](analysis/README.md)
 
 ## Run an experiment
 
@@ -72,17 +121,7 @@ On GitHub, open [Run paper experiment](https://github.com/BitAdventurer/bimanual
 | `native-smoke` | Replay 45 physical branches in MuJoCo. |
 | `end-to-end` | Regenerate the held-out material trajectories and contact intervention, retrain six three-seed ensembles on archived training transitions, and score the selected models on the regenerated test trajectories. Allow roughly half an hour with two hosted CPU workers. |
 
-Results appear in the job log and downloadable workflow artifact. To reproduce the paper’s numbers locally from the repository root, run the following with Python and NumPy.
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r analysis/requirements.txt
-python analysis/reproduce.py
-python mechanism/verify.py
-python training/run.py evaluate --run training/reference --json runs/paper-checkpoints.json
-python scripts/verify_gallery.py
-```
+Results appear in the job log and downloadable workflow artifact.
 
 <details>
 <summary>Run the physics simulator and retrain locally</summary>
@@ -112,16 +151,10 @@ python training/run.py evaluate --run runs/contact --native-test runs/native-gri
 
 </details>
 
-### Data, code and replication
+### Training replication
 
-| Directory | Contents |
-| --- | --- |
-| [analysis](analysis/README.md) | Frozen choices, physical outcomes, matched and reassigned motion histories, paired intervals. |
-| [mechanism](mechanism/README.md) | Contact-intact and contact-cut force traces, socket-local policy and native replay. |
-| [simulation](simulation/README.md) | MuJoCo scene, archived grasp states, branches and insertion checks. Panda meshes come from robosuite. |
-| [training](training/README.md) | Training transitions, controls, frozen checkpoints and validation-based selection. |
-| [paper](paper/) | Five-page manuscript, simulation footage and replay measurements. |
+Material-randomized PPO scored 709/960 against 462/960 for nominal-only training at equal training size, with 335 gains and 88 losses on matched paths. Fresh fits can vary across CPU implementations. A [GitHub CPU training run](https://github.com/BitAdventurer/bimanual-contact-feedback/actions/runs/44360999139) scored 716/960 for randomized training and 462/960 for nominal training. A local Haswell-kernel run scored 703/960 and 462/960 on regenerated paths. A Python 3.11/PyTorch 2.7 fit scored 700/960 and 462/960. These replications share the same test draws.
 
-Assigning an independent motion history to the same first action gave expected scores of 418/960 and 161.8/360. These average all five possible histories, including a possible match. Material-randomized PPO scored 709/960 against 462/960 for nominal-only training at equal training size, with 335 gains and 88 losses on matched paths.
+## Citation
 
-Fresh fits can vary across CPU implementations. A [GitHub CPU training run](https://github.com/BitAdventurer/bimanual-contact-feedback/actions/runs/44360999139) scored 716/960 for randomized training and 462/960 for nominal training. A local Haswell-kernel run scored 703/960 and 462/960 on regenerated paths. A Python 3.11/PyTorch 2.7 fit scored 700/960 and 462/960. These replications share the same test draws.
+Chanh-Hoon Ji. *Contact-Guided Correction Selection After Partner Motion in Simulated Bimanual Insertion*. Korea University. [Manuscript](paper/bimanual_contact_feedback.pdf) · [Citation metadata](CITATION.cff)

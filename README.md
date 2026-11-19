@@ -1,4 +1,4 @@
-# When Should the Socket Hand React?
+# Contact-Guided Correction Selection After Partner Motion in Simulated Bimanual Insertion
 
 Reproduce experiments on two-stage residual control for **bimanual insertion maintenance**. One simulated Panda holds a pin and makes one of five unannounced lateral motions. The other holds the socket and chooses a correction twice. The experiment asks whether the second choice helps because it uses contact feedback from the partner motion that actually occurred.
 

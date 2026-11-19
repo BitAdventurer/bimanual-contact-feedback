@@ -23,7 +23,7 @@
     "second_mm": 4.74346133681475,
     "small_mm": 1.9746025679325288
   },
-  "display_interval_s": 0.02,
+  "display_interval_s": 0.01,
   "time_zero": "First correction starts after common branch preparation",
   "second_decision_s": 0.54,
   "insertion_checks_s": [
@@ -121,5 +121,34 @@
     "training/reference/randomized/bilateral/ppo/9202/step_192.npz": "d42482a5071edc748288f1437710f4942fe22e93f9ca67092f6fc0badfdb38f4",
     "training/reference/randomized/bilateral/ppo/9203/step_192.npz": "52ec60885274d57066dd6bee4a7c177fdd2d2455228dae59fff2776e58c56aef"
   },
-  "video_sha256": "75f14b86f61848f95b3437c30c4eee5712da660502047e99b4bec7cabc848406"
+  "video_sha256": "9e894dbc08c30580457809017b03451d90701ae4ca4dd13ebd552f7a1e8bb395",
+  "presentation": {
+    "source": "Native MuJoCo replay from the archived grasp with the frozen PPO policy.",
+    "source_commit": "e30ff2b51ded68e619856866bdc3c058ef4c2a5c",
+    "camera": {
+      "target": "initial socket rim center in world coordinates",
+      "look_at_m": [
+        0.07945819134270998,
+        0.03961370232348109,
+        0.9969355369832451
+      ],
+      "distance_m": 0.135,
+      "azimuth_deg": 78,
+      "elevation_deg": -25,
+      "identical_across_branches": true
+    },
+    "panels": [
+      "hold",
+      "ppo"
+    ],
+    "simulation_interval_s": [
+      0.0,
+      1.0
+    ],
+    "simulation_sample_interval_s": 0.01,
+    "fps": 25,
+    "frames": 101,
+    "playback_speed_relative_to_simulation": 0.25,
+    "gif_sha256": "40982f0d843af8f1f6fada4862e8c0da35f2968500061e8282db1a5ffd93e7aa"
+  }
 }

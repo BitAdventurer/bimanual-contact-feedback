@@ -34,7 +34,7 @@ The material test uses 64 initial draws from two held-out grasps, each tested un
 
 ## Matched replays
 
-All three replays below share the grasp, the material and the first socket correction. Each is the first released material-test path with that outcome. Within a row, the two responses branch from the identical state after pin motion. Use the episode links to jump to the comparison, or click a preview to open its MP4.
+All three replays below share the grasp, the material and the first socket correction. Each is the first released material-test path with that outcome. Each film shows the same trial side by side. On the left the socket holds its reference after the pin command. On the right the policy chooses its follow-up. Both views use the same fixed close-up. The one-second simulation plays at quarter speed so the millimetre-scale corrections are visible. Click a preview for its MP4, or [watch both arms acquire the parts](#grasp-acquisition) for a wider view.
 
 | Episode | Pin command | Holding the socket reference | Learned follow-up | Material-test paths |
 | --- | --- | --- | --- | ---: |
@@ -46,25 +46,36 @@ The learned follow-up preserved all 474 material-test successes under hold. On t
 
 ### Recovery
 
-The socket first shifts 2.31 mm right and the pin then moves 4.80 mm left. The top row keeps the socket reference fixed. The bottom row applies PPO’s 4.74 mm leftward follow-up. The numbers give signed clearance at the two scoring instants. Insertion requires at least 0.10 mm at both.
+<p align="center"><a href="paper/media/follow-up-comparison.mp4"><img src="paper/media/follow-up-comparison.gif" width="760" alt="Play the two synchronized branches. Holding loses insertion and the learned leftward correction recovers it."></a></p>
+
+The pin moves 4.80 mm left after the socket’s first correction. Holding leaves **−0.057 mm** of clearance at the settled check. PPO shifts the socket 4.74 mm left and finishes with **+1.769 mm**. The task requires at least 0.10 mm at both checks. [Play MP4](paper/media/follow-up-comparison.mp4) · [Branch measurements](paper/media/follow-up-comparison.json)
+
+<details>
+<summary>View decision and scoring frames</summary>
 
 <p align="center"><img src="paper/media/recovery-frames.png" width="760" alt="The two branches at the shared decision and both insertion checks. Holding ends at minus 0.057 mm clearance. Shifting left ends at plus 1.769 mm."></p>
 
-<p align="center"><a href="paper/media/follow-up-comparison.mp4"><img src="paper/media/follow-up-comparison.gif" width="760" alt="Play the two synchronized branches. Holding loses insertion and the learned leftward correction recovers it."></a></p>
+The top row holds the reference and the bottom row applies the learned follow-up. Times are in simulation seconds.
 
-[Full-resolution replay (13 s)](paper/media/follow-up-comparison.mp4) · [Branch measurements](paper/media/follow-up-comparison.json)
+</details>
 
 ### Success preserved
 
-The pin receives a stationary command. The policy holds after its first correction, just as the reference does, and both branches pass the two insertion checks. [MP4](paper/media/preserved-success.mp4) · [Measurements](paper/media/preserved-success.json)
-
 <p align="center"><a href="paper/media/preserved-success.mp4"><img src="paper/media/preserved-success.gif" width="760" alt="Both socket responses hold with a stationary pin command and preserve insertion."></a></p>
+
+The pin receives a stationary command. The policy also chooses to hold, so the two views coincide and both branches pass. [Play MP4](paper/media/preserved-success.mp4) · [Measurements](paper/media/preserved-success.json)
 
 ### Missed recovery
 
-The policy also holds when the pin moves 1.97 mm left. Both branches finish with only 0.063 mm clearance. In a separate replay from the same state, an available leftward correction reaches 1.196 mm and passes both checks. [MP4](paper/media/shared-failure.mp4) · [Measurements for all three actions](paper/media/shared-failure.json)
-
 <p align="center"><a href="paper/media/shared-failure.mp4"><img src="paper/media/shared-failure.gif" width="760" alt="Holding fails in both panels after a small leftward pin command."></a></p>
+
+The pin moves 1.97 mm left. The policy holds, just as the reference does, and both branches finish with 0.063 mm of clearance. In a separate replay from the same state, a leftward correction reaches 1.196 mm and passes both checks. [Play MP4](paper/media/shared-failure.mp4) · [Measurements for all three actions](paper/media/shared-failure.json)
+
+### Grasp acquisition
+
+<p align="center"><a href="paper/media/grasp-acquisition.mp4"><img src="paper/media/grasp-acquisition.gif" width="760" alt="The two arms approach, grasp and engage the parts during setup of a new-grasp trial."></a></p>
+
+Both arms approach and grasp the parts before bringing them together. This 6.5-second clip shows the scripted setup of a separate new-grasp trial at 4.8× speed. [Play MP4](paper/media/grasp-acquisition.mp4)
 
 ### Contact signals
 
@@ -75,11 +86,7 @@ What could the socket hand sense before choosing? The figure follows the first r
 The upper traces show pin–socket normal force over 320 ms. The lower dots show the difference between the left- and right-command socket pressure maps at the three observation times. With contact intact, the rightward command produced a 2.88 N peak and a rightward follow-up. With contact disabled, both commands produced a hold. The socket-local policy also observes joint motion. [Plot from the recorded signals](mechanism/plot_traces.py) · [Experimental protocol](mechanism/README.md)
 
 <details>
-<summary>View the grasp acquisition and the experimental timeline</summary>
-
-<p align="center"><a href="paper/media/grasp-acquisition.mp4"><img src="paper/media/grasp-acquisition.gif" width="760" alt="The two arms approach, grasp and engage the parts during setup of a new-grasp trial."></a></p>
-
-This separate recording shows the scripted setup before the learned corrections begin. [Grasp acquisition (MP4, 8 s)](paper/media/grasp-acquisition.mp4)
+<summary>View the experimental timeline</summary>
 
 ![The first socket correction, unannounced pin motion and follow-up in a one-second trial. The contact-cut test preserves both finger grasps.](paper/media/feedback-protocol.png)
 

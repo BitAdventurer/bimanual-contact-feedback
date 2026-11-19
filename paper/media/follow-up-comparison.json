@@ -121,5 +121,5 @@
     "training/reference/randomized/bilateral/ppo/9202/step_192.npz": "d42482a5071edc748288f1437710f4942fe22e93f9ca67092f6fc0badfdb38f4",
     "training/reference/randomized/bilateral/ppo/9203/step_192.npz": "52ec60885274d57066dd6bee4a7c177fdd2d2455228dae59fff2776e58c56aef"
   },
-  "video_sha256": "ead6e8dd384a1e68e8c552607e7b4e59566a3c6b8ee64a9f390a4f2ae4597e23"
+  "video_sha256": "75f14b86f61848f95b3437c30c4eee5712da660502047e99b4bec7cabc848406"
 }

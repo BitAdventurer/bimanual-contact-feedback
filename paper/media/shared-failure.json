@@ -1,0 +1,182 @@
+{
+  "family_id": "v93r_test_07_000_test_m1125_f080",
+  "layout": 7,
+  "variant": 0,
+  "material_mass_scale": 1.125,
+  "friction_scale": 0.8,
+  "choice_rule": "First held-out material path in released family and motion order where the hold branch and frozen policy both fail.",
+  "material_packet_row": 0,
+  "motion_index": 1,
+  "actions": {
+    "first_socket": "right",
+    "pin_motion": "small left",
+    "alt_1": "hold",
+    "ppo": "hold"
+  },
+  "commands_mm": {
+    "layout": 7,
+    "variant_index": 0,
+    "mass_scale": 1.125,
+    "friction_scale": 0.8,
+    "offset_mm": -1.3780152115354705,
+    "common_mm": 0.6787696787732498,
+    "first_mm": 2.3074398931570297,
+    "partner_mm": 4.802667222231994,
+    "second_mm": 4.74346133681475,
+    "small_mm": 1.9746025679325288
+  },
+  "display_interval_s": 0.02,
+  "time_zero": "First correction starts after common branch preparation",
+  "second_decision_s": 0.54,
+  "insertion_checks_s": [
+    0.88,
+    1.0
+  ],
+  "both_branches_prefix_qpos_equal": true,
+  "matched_state_sha256": "f104f634d12f8937bcfc4dc6aa956f8f19cd9482591df9ae94ae13da10d1bed5",
+  "frozen_policy_decisions_verified_online": true,
+  "archived_gate_bits_verified": 20,
+  "endpoints": {
+    "hold": [
+      {
+        "ok": false,
+        "depth_mm": 25.72902723095906,
+        "clearance_mm": 0.02736256871901238,
+        "angle_rad": 0.006757622003507517,
+        "pad_N": [
+          [
+            17.83315373337488,
+            17.872836806066083
+          ],
+          [
+            17.508789117505664,
+            18.846670577299182
+          ]
+        ],
+        "mating_N": 0.0,
+        "full": true
+      },
+      {
+        "ok": false,
+        "depth_mm": 25.761767959235947,
+        "clearance_mm": 0.06252135726175605,
+        "angle_rad": 0.0067764101641348586,
+        "pad_N": [
+          [
+            17.834048042881577,
+            17.871113949342764
+          ],
+          [
+            17.509041262715876,
+            18.845233568516996
+          ]
+        ],
+        "mating_N": 0.0,
+        "full": true
+      }
+    ],
+    "ppo": [
+      {
+        "ok": false,
+        "depth_mm": 25.72902723095906,
+        "clearance_mm": 0.02736256871901238,
+        "angle_rad": 0.006757622003507517,
+        "pad_N": [
+          [
+            17.83315373337488,
+            17.872836806066083
+          ],
+          [
+            17.508789117505664,
+            18.846670577299182
+          ]
+        ],
+        "mating_N": 0.0,
+        "full": true
+      },
+      {
+        "ok": false,
+        "depth_mm": 25.761767959235947,
+        "clearance_mm": 0.06252135726175605,
+        "angle_rad": 0.0067764101641348586,
+        "pad_N": [
+          [
+            17.834048042881577,
+            17.871113949342764
+          ],
+          [
+            17.509041262715876,
+            18.845233568516996
+          ]
+        ],
+        "mating_N": 0.0,
+        "full": true
+      }
+    ]
+  },
+  "mujoco": "3.2.3",
+  "source_sha256": {
+    "analysis/material.npz": "a3fafd0da323ebc46d11e459c00d2e7c06dc10e871d4621b05d4461eccdd77a5",
+    "simulation/data/reference.npz": "194e4a30a313952f39df9063a7aaaa4f4f92e1deecf97eb982ad46ff77ab6a69",
+    "training/reference/randomized/encoder.npz": "45033c3672a5051abaf819bd90e3e65a9fdbeebc850c595b0a3051057fe6e82c",
+    "training/reference/randomized/bilateral/ppo/9201/step_192.npz": "aaef90e48f9442e89e3b07310deefe9db401116db05d74c25c993b8a4ddf4ee7",
+    "training/reference/randomized/bilateral/ppo/9202/step_192.npz": "d42482a5071edc748288f1437710f4942fe22e93f9ca67092f6fc0badfdb38f4",
+    "training/reference/randomized/bilateral/ppo/9203/step_192.npz": "52ec60885274d57066dd6bee4a7c177fdd2d2455228dae59fff2776e58c56aef"
+  },
+  "video_sha256": "4b2b2b4d753959b92226d494a2d540eb416427bfabd28e0419b4a2e18b9f98b2",
+  "all_followups_on_same_motion": {
+    "left": {
+      "action_index": 0,
+      "archived_success": true
+    },
+    "hold": {
+      "action_index": 1,
+      "archived_success": false
+    },
+    "right": {
+      "action_index": 2,
+      "archived_success": false
+    }
+  },
+  "alternative_replay": {
+    "action": "left",
+    "shown_in_video": false,
+    "archived_gate_bits_verified": 10,
+    "before": {
+      "ok": true,
+      "depth_mm": 25.561349559733422,
+      "clearance_mm": 1.026557075725857,
+      "angle_rad": 0.00846296130811542,
+      "pad_N": [
+        [
+          17.853605424369256,
+          17.854161648084087
+        ],
+        [
+          17.507129822224137,
+          18.842774134225582
+        ]
+      ],
+      "mating_N": 0.0,
+      "full": true
+    },
+    "after": {
+      "ok": true,
+      "depth_mm": 25.890479563793164,
+      "clearance_mm": 1.1960296882463881,
+      "angle_rad": 0.00841563336575236,
+      "pad_N": [
+        [
+          17.853498329980262,
+          17.853319675585006
+        ],
+        [
+          17.509425746356943,
+          18.839687961581035
+        ]
+      ],
+      "mating_N": 0.0,
+      "full": true
+    }
+  }
+}

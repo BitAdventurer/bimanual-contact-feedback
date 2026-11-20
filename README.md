@@ -185,4 +185,4 @@ Material-randomized PPO scored 709/960 against 462/960 for nominal-only training
 
 ## Citation
 
-Chanh-Hoon Ji. *When Spatial Tactile Feedback Improves Follow-Up Corrections in Bimanual Insertion*. Korea University. [Manuscript](paper/bimanual_contact_feedback.pdf) · [Citation metadata](CITATION.cff)
+Chanh-Hoon Ji. *When Spatial Tactile Feedback Improves Follow-Up Corrections in Bimanual Insertion*. Korea University. [Manuscript](paper/bimanual_contact_feedback.pdf) · [Citation metadata](CITATION.cff) · [Manuscript references (BibTeX)](paper/references.bib)

@@ -1,19 +1,22 @@
-# Choosing the Next Correction After Partner Motion
+# When Spatial Tactile Feedback Improves Follow-Up Corrections in Bimanual Insertion
 
-Code, trained policies and matched simulation replays for our [five-page paper (PDF)](paper/bimanual_contact_feedback.pdf). [Watch the replays](#matched-replays) or [reproduce the results](#reproduce-the-results).
+Chanh-Hoon Ji · Korea University
 
-> **Contact-Guided Correction Selection After Partner Motion in Simulated Bimanual Insertion**<br>
-> Chanh-Hoon Ji, Korea University
+[Paper (5-page PDF)](paper/bimanual_contact_feedback.pdf) · [Supplement](paper/socket_map_supplement.pdf) · [Matched replays](#matched-replays) · [Reproduce the partner-motion results](#reproduce-the-results)
+
+We study how the arm holding a socket chooses its next correction after contact changes. Two simulated tests restore the same grasp to compare the corrections that would keep a pin inserted. In one, the partner arm moves. In the other, an external probe presses opposite sides of the pin while both arms receive identical commands.
 
 ![In one simulated grasp the socket moves right, the pin moves left, and the socket policy uses both hands’ pad-force maps and its joint history to select a leftward follow-up.](paper/media/overview.png)
 
-When two arms assemble parts in contact, one arm can undo the alignment the other just achieved. Can the receiving arm use that change in contact to choose its next correction within the same attempt? We test this with two Panda arms in MuJoCo, one holding a pin and the other a socket.
+## Partner motion
+
+Two Panda arms hold a pin and a socket in MuJoCo. The trained policies and video replays in this repository use the following partner-motion protocol. [Experimental setup](simulation/README.md#experimental-setup)
 
 - **First correction.** The socket arm shifts its servo reference left or right, or holds. The pin arm then makes one of five unannounced lateral motions, including a stationary command.
 - **Follow-up.** After the pin command, a residual policy trained with proximal policy optimization (PPO) chooses left, hold or right. It reads both hands’ 8 × 8 pad-force maps and the socket arm’s joint history.
 - **Matched comparison.** Restoring the same simulated grasp lets us try all nine socket-action pairs for each pin motion. We score engagement, depth, clearance, angle and grip at 0.88 s and again at 1.00 s.
 
-## Results
+### Partner-motion results
 
 The socket policy maintained or recovered insertion on **709 of 960** material-test paths. Even with hindsight, the best pair of actions fixed before the pin moved succeeded on **544**. The fixed pair can vary across initial conditions and materials but must handle all five pin motions at that condition.
 
@@ -24,13 +27,31 @@ The socket policy maintained or recovered insertion on **709 of 960** material-t
 | **PPO with feedback from the actual motion** | **709 (73.9%)** | **289 (80.3%)** |
 | Paired gain over the best fixed pair, percentage points [95% interval] | +17.19 [14.79, 19.48] | +23.33 [20.83, 26.11] |
 
+For opposite large pin motions after the same first correction, no common follow-up could succeed on both sides in 124 of 192 material-test conditions and 66 of 72 new-grasp conditions, even though each side admitted a successful action. The policy succeeded on both sides in 41 and 31 of those conditions, respectively. This descriptive comparison uses the same frozen test paths.
+
 The material test uses 64 initial draws from two held-out grasps, each tested under three material settings and five motions. The second test uses 12 newly acquired grasps, each with six variants and five motions at nominal material. Intervals resample whole initial draws within each material-test grasp or whole new grasps. [Paired analysis and data](analysis/README.md)
 
 <p align="center"><img src="paper/media/contact-results.png" width="570" alt="Paper figure comparing fixed and feedback-guided insertion, changes in the socket-local decision when contact is cut, and insertion when socket observations are held or replaced."></p>
 
 **What passes through contact?** In a separate test, a policy sensing only the socket hand chose different follow-ups for opposite pin motions in **85/96** comparisons with part contact intact and **0/96** after contact was disabled. Both hands kept their grasps. Panel (b) counts action changes. Panels (a) and (c) count insertions with contact intact. [Contact experiment](mechanism/README.md)
 
-**What do the pressure maps add?** Shuffling socket pressure locations at fixed total load reduced material-test successes from 709 to 609. Replacing the spatial distribution with that of the same grasp under a stationary pin gave 699. A separately trained wrist-wrench policy reached 722/960. The spatial layout affects the learned policy’s choices, while its benefit over aggregate force sensing remains open. [Sensor controls in the paper](paper/bimanual_contact_feedback.pdf)
+**Socket-map sensitivity (supplement).** Shuffling socket pressure locations at fixed total load reduced material-test successes from 709 to 609. Replacing the spatial distribution with that of the same grasp under a stationary pin gave 699. A separately trained wrist-wrench policy reached 722/960. The simulated rigid pads put 99.97% of the training socket load on four corner cells on average. These interventions test sensitivity to rearranging that input. [Supplementary Figure S1 and paired results](paper/socket_map_supplement.pdf)
+
+## When spatial tactile feedback helps
+
+With both arm commands held fixed across trials, a probe pressed opposite sides of the pin. The socket arm completed the same unloading motion and selected one of five lateral corrections. We compared its six-axis wrist wrench and both hands’ total loads with the same inputs plus an 8 × 8 map of load on each hand.
+
+| Insertions retained | 3 mm probe travel | 2.5 or 3.5 mm probe travel |
+| --- | ---: | ---: |
+| Residual PPO from scratch, wrench and total loads | 511/576 | 510/576 |
+| Residual PPO from scratch, with spatial maps | 548/576 | 554/576 |
+| Supervised on all five action outcomes, wrench and total loads | 548/576 | 554/576 |
+| Supervised on all five action outcomes, with spatial maps | 548/576 | 554/576 |
+| Best available action for each state | 548/576 | 554/576 |
+
+Each column contains 32 independent held-out grasps. Adding maps to PPO recovered 37 and 44 insertions, respectively, while preserving every previous success. In 27 and 28 of those recoveries, the map policy omitted an extra +3 mm lateral move that had lost insertion. With all five action outcomes available for supervision, the wrist wrench and total loads already sufficed at every state where one of the five candidates could succeed. [Paired estimates and grasp-level intervals](analysis/probe_results.json)
+
+<p align="center"><img src="paper/media/probe-learning.png" width="510" alt="Fig. 3. Adding spatial maps increased retention for PPO trained from scratch by 6.42 and 7.64 percentage points in the two cohorts. Supervision on all five candidate outcomes reached the same ceiling with either sensor input."></p>
 
 ## Matched replays
 
@@ -104,7 +125,7 @@ The upper traces show pin–socket normal force over 320 ms. The lower dots show
 
 ## Reproduce the results
 
-From the repository root, run the following with Python and NumPy.
+These commands reproduce the partner-motion analyses and evaluate the released checkpoints. The external-probe comparison is available in the [paired results file](analysis/probe_results.json). From the repository root, run the following with Python and NumPy.
 
 ```bash
 python3 -m venv .venv
@@ -164,4 +185,4 @@ Material-randomized PPO scored 709/960 against 462/960 for nominal-only training
 
 ## Citation
 
-Chanh-Hoon Ji. *Contact-Guided Correction Selection After Partner Motion in Simulated Bimanual Insertion*. Korea University. [Manuscript](paper/bimanual_contact_feedback.pdf) · [Citation metadata](CITATION.cff)
+Chanh-Hoon Ji. *When Spatial Tactile Feedback Improves Follow-Up Corrections in Bimanual Insertion*. Korea University. [Manuscript](paper/bimanual_contact_feedback.pdf) · [Citation metadata](CITATION.cff)

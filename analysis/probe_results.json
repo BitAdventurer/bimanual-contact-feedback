@@ -1,0 +1,675 @@
+{
+  "cohorts": {
+    "fresh": {
+      "rows": 576,
+      "grasps": 32,
+      "pairs": 192,
+      "shams": 192,
+      "opposite_pairs": 35,
+      "opposite_grasps": 21,
+      "contact_verified_opposite_pairs": 35,
+      "both_individually_viable": 164,
+      "shared_viable_action": 0,
+      "policies": {
+        "y_only": {
+          "success": 308,
+          "strict_both": 0,
+          "recovered_vs_zero": 0,
+          "lost_vs_zero": 0
+        },
+        "command_sl": {
+          "success": 361,
+          "strict_both": 0,
+          "recovered_vs_zero": 114,
+          "lost_vs_zero": 61
+        },
+        "command_ppo": {
+          "success": 349,
+          "strict_both": 0,
+          "recovered_vs_zero": 194,
+          "lost_vs_zero": 153
+        },
+        "force_rule": {
+          "success": 432,
+          "strict_both": 29,
+          "recovered_vs_zero": 212,
+          "lost_vs_zero": 88
+        },
+        "wrist_loads_sl": {
+          "success": 548,
+          "strict_both": 35,
+          "recovered_vs_zero": 240,
+          "lost_vs_zero": 0
+        },
+        "spatial_sl": {
+          "success": 548,
+          "strict_both": 35,
+          "recovered_vs_zero": 240,
+          "lost_vs_zero": 0
+        },
+        "wrist_loads_ppo": {
+          "success": 548,
+          "strict_both": 35,
+          "recovered_vs_zero": 240,
+          "lost_vs_zero": 0
+        },
+        "spatial_ppo": {
+          "success": 548,
+          "strict_both": 35,
+          "recovered_vs_zero": 240,
+          "lost_vs_zero": 0
+        },
+        "wrist_loads_ppo_scratch": {
+          "success": 511,
+          "strict_both": 29,
+          "recovered_vs_zero": 232,
+          "lost_vs_zero": 29,
+          "per_seed_success": [
+            505,
+            502,
+            510
+          ],
+          "per_seed_strict_both": [
+            29,
+            29,
+            18
+          ]
+        },
+        "spatial_ppo_scratch": {
+          "success": 548,
+          "strict_both": 35,
+          "recovered_vs_zero": 240,
+          "lost_vs_zero": 0,
+          "per_seed_success": [
+            547,
+            547,
+            548
+          ],
+          "per_seed_strict_both": [
+            35,
+            35,
+            35
+          ]
+        },
+        "spatial_sl_swap": {
+          "success": 298,
+          "strict_both": 0,
+          "recovered_vs_zero": 112,
+          "lost_vs_zero": 122
+        },
+        "spatial_ppo_swap": {
+          "success": 302,
+          "strict_both": 0,
+          "recovered_vs_zero": 114,
+          "lost_vs_zero": 120
+        },
+        "spatial_sl_scratch_matched": {
+          "success": 532,
+          "strict_both": 35,
+          "recovered_vs_zero": 227,
+          "lost_vs_zero": 3,
+          "per_seed_success": [
+            534,
+            529,
+            534
+          ],
+          "per_seed_strict_both": [
+            35,
+            35,
+            35
+          ]
+        },
+        "wrist_loads_sl_scratch_matched": {
+          "success": 467,
+          "strict_both": 20,
+          "recovered_vs_zero": 169,
+          "lost_vs_zero": 10,
+          "per_seed_success": [
+            468,
+            450,
+            492
+          ],
+          "per_seed_strict_both": [
+            29,
+            19,
+            25
+          ]
+        },
+        "spatial_sl_socket_swap": {
+          "success": 467,
+          "strict_both": 6,
+          "recovered_vs_zero": 193,
+          "lost_vs_zero": 34
+        },
+        "spatial_sl_pin_swap": {
+          "success": 412,
+          "strict_both": 2,
+          "recovered_vs_zero": 184,
+          "lost_vs_zero": 80
+        },
+        "spatial_ppo_socket_swap": {
+          "success": 467,
+          "strict_both": 6,
+          "recovered_vs_zero": 193,
+          "lost_vs_zero": 34
+        },
+        "spatial_ppo_pin_swap": {
+          "success": 406,
+          "strict_both": 2,
+          "recovered_vs_zero": 184,
+          "lost_vs_zero": 86
+        },
+        "action_set_ceiling": {
+          "success": 548,
+          "strict_both": 35,
+          "recovered_vs_zero": 240,
+          "lost_vs_zero": 0
+        }
+      },
+      "contrasts": {
+        "maps_scratch_ppo": {
+          "delta_pp": 6.423611111111111,
+          "ci95_pp": [
+            4.513888888888888,
+            8.333333333333332
+          ],
+          "gains": 37,
+          "losses": 0
+        },
+        "maps_full_sl": {
+          "delta_pp": 0.0,
+          "ci95_pp": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0
+        },
+        "maps_warm_ppo": {
+          "delta_pp": 0.0,
+          "ci95_pp": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0
+        },
+        "ppo_vs_matched": {
+          "delta_pp": 2.7777777777777777,
+          "ci95_pp": [
+            1.5625,
+            3.9930555555555554
+          ],
+          "gains": 16,
+          "losses": 0
+        }
+      },
+      "members_maps_minus_wrist_scratch": [
+        {
+          "gains": 42,
+          "losses": 0
+        },
+        {
+          "gains": 45,
+          "losses": 0
+        },
+        {
+          "gains": 38,
+          "losses": 0
+        }
+      ]
+    },
+    "transfer": {
+      "rows": 576,
+      "grasps": 32,
+      "pairs": 192,
+      "shams": 192,
+      "opposite_pairs": 43,
+      "opposite_grasps": 16,
+      "contact_verified_opposite_pairs": 43,
+      "both_individually_viable": 170,
+      "shared_viable_action": 11,
+      "policies": {
+        "y_only": {
+          "success": 306,
+          "strict_both": 0,
+          "recovered_vs_zero": 0,
+          "lost_vs_zero": 0
+        },
+        "command_sl": {
+          "success": 355,
+          "strict_both": 0,
+          "recovered_vs_zero": 112,
+          "lost_vs_zero": 63
+        },
+        "command_ppo": {
+          "success": 347,
+          "strict_both": 0,
+          "recovered_vs_zero": 184,
+          "lost_vs_zero": 143
+        },
+        "force_rule": {
+          "success": 442,
+          "strict_both": 36,
+          "recovered_vs_zero": 222,
+          "lost_vs_zero": 86
+        },
+        "wrist_loads_sl": {
+          "success": 554,
+          "strict_both": 43,
+          "recovered_vs_zero": 248,
+          "lost_vs_zero": 0
+        },
+        "spatial_sl": {
+          "success": 554,
+          "strict_both": 43,
+          "recovered_vs_zero": 248,
+          "lost_vs_zero": 0
+        },
+        "wrist_loads_ppo": {
+          "success": 554,
+          "strict_both": 43,
+          "recovered_vs_zero": 248,
+          "lost_vs_zero": 0
+        },
+        "spatial_ppo": {
+          "success": 554,
+          "strict_both": 43,
+          "recovered_vs_zero": 248,
+          "lost_vs_zero": 0
+        },
+        "wrist_loads_ppo_scratch": {
+          "success": 510,
+          "strict_both": 38,
+          "recovered_vs_zero": 238,
+          "lost_vs_zero": 34,
+          "per_seed_success": [
+            509,
+            502,
+            505
+          ],
+          "per_seed_strict_both": [
+            38,
+            38,
+            33
+          ]
+        },
+        "spatial_ppo_scratch": {
+          "success": 554,
+          "strict_both": 43,
+          "recovered_vs_zero": 248,
+          "lost_vs_zero": 0,
+          "per_seed_success": [
+            554,
+            553,
+            552
+          ],
+          "per_seed_strict_both": [
+            43,
+            43,
+            43
+          ]
+        },
+        "spatial_sl_swap": {
+          "success": 294,
+          "strict_both": 0,
+          "recovered_vs_zero": 118,
+          "lost_vs_zero": 130
+        },
+        "spatial_ppo_swap": {
+          "success": 294,
+          "strict_both": 0,
+          "recovered_vs_zero": 118,
+          "lost_vs_zero": 130
+        },
+        "spatial_sl_scratch_matched": {
+          "success": 528,
+          "strict_both": 43,
+          "recovered_vs_zero": 225,
+          "lost_vs_zero": 3,
+          "per_seed_success": [
+            527,
+            525,
+            530
+          ],
+          "per_seed_strict_both": [
+            43,
+            43,
+            43
+          ]
+        },
+        "wrist_loads_sl_scratch_matched": {
+          "success": 477,
+          "strict_both": 36,
+          "recovered_vs_zero": 180,
+          "lost_vs_zero": 9,
+          "per_seed_success": [
+            482,
+            464,
+            485
+          ],
+          "per_seed_strict_both": [
+            37,
+            35,
+            37
+          ]
+        },
+        "spatial_sl_socket_swap": {
+          "success": 466,
+          "strict_both": 20,
+          "recovered_vs_zero": 208,
+          "lost_vs_zero": 48
+        },
+        "spatial_sl_pin_swap": {
+          "success": 410,
+          "strict_both": 13,
+          "recovered_vs_zero": 175,
+          "lost_vs_zero": 71
+        },
+        "spatial_ppo_socket_swap": {
+          "success": 466,
+          "strict_both": 20,
+          "recovered_vs_zero": 208,
+          "lost_vs_zero": 48
+        },
+        "spatial_ppo_pin_swap": {
+          "success": 409,
+          "strict_both": 14,
+          "recovered_vs_zero": 176,
+          "lost_vs_zero": 73
+        },
+        "action_set_ceiling": {
+          "success": 554,
+          "strict_both": 43,
+          "recovered_vs_zero": 248,
+          "lost_vs_zero": 0
+        }
+      },
+      "contrasts": {
+        "maps_scratch_ppo": {
+          "delta_pp": 7.638888888888889,
+          "ci95_pp": [
+            6.076388888888888,
+            9.20138888888889
+          ],
+          "gains": 44,
+          "losses": 0
+        },
+        "maps_full_sl": {
+          "delta_pp": 0.0,
+          "ci95_pp": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0
+        },
+        "maps_warm_ppo": {
+          "delta_pp": 0.0,
+          "ci95_pp": [
+            0.0,
+            0.0
+          ],
+          "gains": 0,
+          "losses": 0
+        },
+        "ppo_vs_matched": {
+          "delta_pp": 4.513888888888888,
+          "ci95_pp": [
+            2.7777777777777777,
+            6.423611111111111
+          ],
+          "gains": 26,
+          "losses": 0
+        }
+      },
+      "members_maps_minus_wrist_scratch": [
+        {
+          "gains": 45,
+          "losses": 0
+        },
+        {
+          "gains": 52,
+          "losses": 1
+        },
+        {
+          "gains": 48,
+          "losses": 1
+        }
+      ]
+    },
+    "transfer_crossover": {
+      "rows": 576,
+      "grasps": 32,
+      "pairs": 192,
+      "shams": 192,
+      "opposite_pairs": 51,
+      "opposite_grasps": 16,
+      "contact_verified_opposite_pairs": 51,
+      "both_individually_viable": 166,
+      "shared_viable_action": 8,
+      "policies": {
+        "y_only": {
+          "success": 298,
+          "strict_both": 0,
+          "recovered_vs_zero": 0,
+          "lost_vs_zero": 0
+        },
+        "command_sl": {
+          "success": 352,
+          "strict_both": 0,
+          "recovered_vs_zero": 115,
+          "lost_vs_zero": 61
+        },
+        "command_ppo": {
+          "success": 346,
+          "strict_both": 0,
+          "recovered_vs_zero": 187,
+          "lost_vs_zero": 139
+        },
+        "force_rule": {
+          "success": 433,
+          "strict_both": 48,
+          "recovered_vs_zero": 231,
+          "lost_vs_zero": 96
+        },
+        "wrist_loads_sl": {
+          "success": 548,
+          "strict_both": 51,
+          "recovered_vs_zero": 250,
+          "lost_vs_zero": 0
+        },
+        "spatial_sl": {
+          "success": 550,
+          "strict_both": 51,
+          "recovered_vs_zero": 252,
+          "lost_vs_zero": 0
+        },
+        "wrist_loads_ppo": {
+          "success": 548,
+          "strict_both": 51,
+          "recovered_vs_zero": 250,
+          "lost_vs_zero": 0
+        },
+        "spatial_ppo": {
+          "success": 550,
+          "strict_both": 51,
+          "recovered_vs_zero": 252,
+          "lost_vs_zero": 0
+        },
+        "wrist_loads_ppo_scratch": {
+          "success": 508,
+          "strict_both": 50,
+          "recovered_vs_zero": 247,
+          "lost_vs_zero": 37,
+          "per_seed_success": [
+            501,
+            495,
+            502
+          ],
+          "per_seed_strict_both": [
+            50,
+            50,
+            42
+          ]
+        },
+        "spatial_ppo_scratch": {
+          "success": 545,
+          "strict_both": 51,
+          "recovered_vs_zero": 252,
+          "lost_vs_zero": 5,
+          "per_seed_success": [
+            543,
+            545,
+            543
+          ],
+          "per_seed_strict_both": [
+            51,
+            51,
+            51
+          ]
+        },
+        "spatial_sl_swap": {
+          "success": 290,
+          "strict_both": 0,
+          "recovered_vs_zero": 114,
+          "lost_vs_zero": 122
+        },
+        "spatial_ppo_swap": {
+          "success": 292,
+          "strict_both": 0,
+          "recovered_vs_zero": 116,
+          "lost_vs_zero": 122
+        },
+        "spatial_sl_scratch_matched": {
+          "success": 526,
+          "strict_both": 51,
+          "recovered_vs_zero": 235,
+          "lost_vs_zero": 7,
+          "per_seed_success": [
+            530,
+            522,
+            529
+          ],
+          "per_seed_strict_both": [
+            51,
+            51,
+            51
+          ]
+        },
+        "wrist_loads_sl_scratch_matched": {
+          "success": 464,
+          "strict_both": 42,
+          "recovered_vs_zero": 175,
+          "lost_vs_zero": 9,
+          "per_seed_success": [
+            474,
+            446,
+            484
+          ],
+          "per_seed_strict_both": [
+            46,
+            37,
+            46
+          ]
+        },
+        "spatial_sl_socket_swap": {
+          "success": 459,
+          "strict_both": 19,
+          "recovered_vs_zero": 205,
+          "lost_vs_zero": 44
+        },
+        "spatial_sl_pin_swap": {
+          "success": 395,
+          "strict_both": 16,
+          "recovered_vs_zero": 173,
+          "lost_vs_zero": 76
+        },
+        "spatial_ppo_socket_swap": {
+          "success": 461,
+          "strict_both": 18,
+          "recovered_vs_zero": 204,
+          "lost_vs_zero": 41
+        },
+        "spatial_ppo_pin_swap": {
+          "success": 398,
+          "strict_both": 16,
+          "recovered_vs_zero": 173,
+          "lost_vs_zero": 73
+        },
+        "action_set_ceiling": {
+          "success": 550,
+          "strict_both": 51,
+          "recovered_vs_zero": 252,
+          "lost_vs_zero": 0
+        }
+      },
+      "contrasts": {
+        "maps_scratch_ppo": {
+          "delta_pp": 6.423611111111111,
+          "ci95_pp": [
+            4.861111111111112,
+            7.986111111111112
+          ],
+          "gains": 42,
+          "losses": 5
+        },
+        "maps_full_sl": {
+          "delta_pp": 0.3472222222222222,
+          "ci95_pp": [
+            0.0,
+            0.8680555555555556
+          ],
+          "gains": 2,
+          "losses": 0
+        },
+        "maps_warm_ppo": {
+          "delta_pp": 0.3472222222222222,
+          "ci95_pp": [
+            0.0,
+            0.8680555555555556
+          ],
+          "gains": 2,
+          "losses": 0
+        },
+        "ppo_vs_matched": {
+          "delta_pp": 3.298611111111111,
+          "ci95_pp": [
+            2.083333333333333,
+            4.6875
+          ],
+          "gains": 20,
+          "losses": 1
+        }
+      },
+      "members_maps_minus_wrist_scratch": [
+        {
+          "gains": 44,
+          "losses": 2
+        },
+        {
+          "gains": 55,
+          "losses": 5
+        },
+        {
+          "gains": 46,
+          "losses": 5
+        }
+      ]
+    }
+  },
+  "within_grasp_crossover": {
+    "2.5": {
+      "grasp_count": 32,
+      "pairs": 192,
+      "opposite_pairs": 0,
+      "opposite_grasps": 0
+    },
+    "3.5": {
+      "grasp_count": 32,
+      "pairs": 192,
+      "opposite_pairs": 94,
+      "opposite_grasps": 32
+    }
+  }
+}

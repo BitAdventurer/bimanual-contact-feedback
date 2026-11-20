@@ -17,6 +17,32 @@ def file_hash(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def compare_opposite_motions(physical, chosen, cluster):
+    """Count paired conditions at the policy's first action for the two large motions."""
+    indices = np.arange(len(chosen))
+    first = chosen[:, 0, 0]
+    successful_left = physical[indices, 0, first, :]
+    successful_right = physical[indices, 4, first, :]
+    recoverable = successful_left.any(axis=1) & successful_right.any(axis=1)
+    disjoint = recoverable & ~(successful_left & successful_right).any(axis=1)
+    # In a disjoint pair, each motion has at least one successful follow-up.
+    # If hold works on neither side, the two sets must be {left} and {right}.
+    hold_works = successful_left[:, 1] | successful_right[:, 1]
+    opposite_only = disjoint & ~hold_works
+    policy_solves_both = (successful_left[indices, chosen[:, 0, 1]]
+                          & successful_right[indices, chosen[:, 4, 1]])
+    return dict(
+        conditions=len(first),
+        both_motions_individually_recoverable=int(recoverable.sum()),
+        disjoint_successful_followups=int(disjoint.sum()),
+        clusters_with_disjoint_followups=len(np.unique(cluster[disjoint])),
+        policy_solves_both_disjoint=int((policy_solves_both & disjoint).sum()),
+        disjoint_with_hold_on_either_side=int((disjoint & hold_works).sum()),
+        unique_opposite_lateral_followups=int(opposite_only.sum()),
+        policy_solves_both_unique_opposite=int((policy_solves_both & opposite_only).sum()),
+    )
+
+
 def score(study):
     main = study == "material"
     packet = BASE / (study + ".npz")
@@ -70,6 +96,7 @@ def score(study):
         boot = diff[draws].mean(1)
         deltas[labels[j]] = dict(pp=float(diff.mean()), ci95=np.percentile(boot,[2.5,97.5]).tolist())
     return dict(assigned_futures=5*len(rows), n_roots=len(ordered), scores=results, aligned_minus=deltas, response_matrix=matrix.tolist(),
+                opposite_large_motions=compare_opposite_motions(physical, chosen, cluster),
                 cluster_columns=labels, cluster_rates={str(k):v for k,v in by_cluster.items()},
                 sha256=packet_digest)
 

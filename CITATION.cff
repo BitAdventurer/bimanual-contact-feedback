@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use these simulations, please cite the accompanying research manuscript."
-title: "Contact-Guided Correction Selection After Partner Motion in Simulated Bimanual Insertion"
+title: "When Spatial Tactile Feedback Improves Follow-Up Corrections in Bimanual Insertion"
 authors:
   - given-names: "Chanh-Hoon"
     family-names: "Ji"
@@ -8,7 +8,7 @@ authors:
 repository-code: "https://github.com/BitAdventurer/bimanual-contact-feedback"
 preferred-citation:
   type: unpublished
-  title: "Contact-Guided Correction Selection After Partner Motion in Simulated Bimanual Insertion"
+  title: "When Spatial Tactile Feedback Improves Follow-Up Corrections in Bimanual Insertion"
   authors:
     - given-names: "Chanh-Hoon"
       family-names: "Ji"

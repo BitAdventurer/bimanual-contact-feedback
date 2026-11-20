@@ -1,6 +1,21 @@
 # Native two-Panda replay
 
-The simulator re-integrates the contact-recovery segment with MuJoCo at 0.5 ms. Arm A holds a free peg and arm B holds a free socket. Both have seven torque-controlled joints and two finger pads. Each episode starts from an archived grasp. A first residual motion of B precedes an unannounced movement of A. B can measure six samples of its joints, its six-axis wrench, and both hands’ 8×8 normal-force maps before choosing a second residual. The two gripper fingers contribute to each hand map. Cell units are newtons.
+The simulator re-integrates a one-second contact-recovery segment from an archived grasp. Arm A holds a free pin and arm B holds a free socket. The learned controller acts on B. A receives a scripted lateral command between B's two decisions.
+
+## Experimental setup
+
+MuJoCo 3.2.3 integrates two seven-joint, torque-controlled Panda arms at 0.5 ms. The pin is 28 mm in diameter. The socket has a 34 mm square opening through an 18 mm plate. At the grasp pose, a damped Jacobian inverse maps lateral reference increments along world x into joint-reference increments. The distances below specify commanded targets. Actual part motion depends on the contact dynamics.
+
+| Time from B's first decision | Command | Target increment and ramp |
+| --- | --- | --- |
+| 0–0.22 s | B chooses its first correction | Hold, or 1.6–2.4 mm left or right. Ramp 0.14 s. |
+| 0.22–0.54 s | A receives one of five unannounced commands | Hold, or move left or right by 0.75–2.25 mm or 4.3–5.7 mm. Ramp 0.20 s. |
+| 0.54–0.88 s | B chooses its follow-up | Hold, or 4.3–5.7 mm left or right. Ramp 0.20 s. |
+| 0.88–1.00 s | Both arms hold their final references | Check insertion at the start and end of this hold. |
+
+B's first observation contains six samples from a 0.12 s hold preceding the table. The follow-up also uses the first action and six new samples, three during B's correction and three during A's motion. Bilateral PPO reads B's joint angles and velocities, quantized to 0.001 rad and 0.01 rad/s, and one 8 × 8 normal-force map from each hand. Normal loads are distributed bilinearly on two 16 × 16 mm finger pads per hand and their maps are summed (N per cell). A separate sensor comparison replaces the maps with a six-axis wrench reconstructed from B's pad contacts. Part poses, material settings and A's command are withheld from the policies. The binary terminal reward requires insertion and both grasps to pass at both checks.
+
+The command sampler, physical transitions, tactile projection and training settings are documented with the implementation. [Command parameters](task.py) · [Servo and scoring](physics.py) · [Simulated sensors](sensor.py) · [PPO and supervised training](../training/README.md#training-and-evaluation)
 
 ## Install and run
 

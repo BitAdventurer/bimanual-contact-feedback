@@ -9,6 +9,7 @@ authors:
   - given-names: "Tae-Eui"
     family-names: "Kam"
     affiliation: "Department of Artificial Intelligence, Korea University, Seoul, Republic of Korea"
+    email: "kamtae@korea.ac.kr"
 repository-code: "https://github.com/BitAdventurer/bimanual-contact-feedback"
 preferred-citation:
   type: unpublished
@@ -21,4 +22,5 @@ preferred-citation:
     - given-names: "Tae-Eui"
       family-names: "Kam"
       affiliation: "Department of Artificial Intelligence, Korea University, Seoul, Republic of Korea"
+      email: "kamtae@korea.ac.kr"
   url: "https://github.com/BitAdventurer/bimanual-contact-feedback/blob/main/paper/bimanual_contact_feedback.pdf"

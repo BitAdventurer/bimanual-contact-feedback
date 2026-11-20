@@ -2,7 +2,7 @@
 
 Chang-Hoon Ji and Tae-Eui Kam · Department of Artificial Intelligence, Korea University, Seoul, Republic of Korea
 
-[Paper (5-page PDF)](paper/bimanual_contact_feedback.pdf) · [Partner-motion results](#partner-motion-results) · [External-probe results (Table I)](#table-i-external-probe-in-fig-1c) · [Supplement](paper/socket_map_supplement.pdf) · [Matched replays](#matched-replays)
+[Paper (5-page PDF)](paper/bimanual_contact_feedback.pdf) · [Partner-motion results](#partner-motion-results) · [External-probe results (Table I)](#table-i-external-probe-in-fig-1c) · [Matched replays](#matched-replays)
 
 The pin starts partly inserted. Arm A holds the pin and arm B holds the socket. Can B keep the pin engaged by choosing its next correction after contact changes? In Fig. 1(b), A shifts the pin or holds between B's two decisions. In Fig. 1(c), A is braced and an external probe loads the pin. B always releases along Y and chooses how far to move along X, including zero.
 
@@ -35,7 +35,7 @@ The material test uses 64 initial draws from two held-out grasps, each tested un
 
 **What passes through contact?** In a separate test, a policy sensing only the socket hand chose different follow-ups for opposite pin motions in **85/96** comparisons with part contact intact and **0/96** after contact was disabled. Both hands kept their grasps. Panel (b) counts action changes. Panels (a) and (c) compare retention rates with contact intact. [Contact experiment](mechanism/README.md)
 
-**Socket-map sensitivity (supplement).** Shuffling socket pressure locations at fixed total load reduced material-test successes from 709 to 609. Replacing the spatial distribution with that of the same grasp under a stationary pin gave 699. A separately trained wrist-wrench policy reached 722/960. The simulated rigid pads put 99.97% of the training socket load on four corner cells on average. These interventions test sensitivity to rearranging that input. [Supplementary Figure S1 and paired results](paper/socket_map_supplement.pdf)
+**Socket-map sensitivity.** On the 960 material-test paths, the frozen policy retained 709 insertions with the measured socket map. With total load held fixed, it retained 699 using the matched stationary-pin distribution and 609 under the prespecified shuffle of all 64 cells. A separately trained wrist-wrench policy reached 722/960. The simulated rigid pads put 99.97% of the training socket load on four corner cells on average. These interventions test sensitivity to rearranging that input.
 
 ## When spatial tactile feedback helps
 

@@ -10,7 +10,7 @@ We study how the arm holding a socket chooses its next correction after contact 
 
 ## Partner motion
 
-Two Panda arms hold a pin and a socket in MuJoCo. The trained policies and video replays in this repository use the following partner-motion protocol. [Experimental setup](simulation/README.md#experimental-setup)
+Two Panda arms hold a pin and a socket in MuJoCo. Figure 1 shows both arms and a close-up of the same grasp just before the socket arm's follow-up. [Figure 1](paper/media/bimanual-insertion.png) · [Experimental setup](simulation/README.md#experimental-setup)
 
 - **First correction.** The socket arm shifts its servo reference left or right, or holds. The pin arm then makes one of five unannounced lateral motions, including a stationary command.
 - **Follow-up.** After the pin command, a residual policy trained with proximal policy optimization (PPO) chooses left, hold or right. It reads both hands’ 8 × 8 pad-force maps and the socket arm’s joint history.

@@ -2,15 +2,15 @@
 
 Chang-Hoon Ji and Tae-Eui Kam · Department of Artificial Intelligence, Korea University, Seoul, Republic of Korea
 
-[Paper (5-page PDF)](paper/bimanual_contact_feedback.pdf) · [Supplement](paper/socket_map_supplement.pdf) · [Matched replays](#matched-replays) · [Reproduce the partner-motion results](#reproduce-the-results)
+[Paper (5-page PDF)](paper/bimanual_contact_feedback.pdf) · [Partner-motion results](#partner-motion-results) · [External-probe results (Table I)](#table-i-external-probe-in-fig-1c) · [Supplement](paper/socket_map_supplement.pdf) · [Matched replays](#matched-replays)
 
-We study how the arm holding a socket chooses its next correction after contact changes. Two simulated tests restore the same grasp to compare the corrections that would keep a pin inserted. In one, the partner arm moves. In the other, an external probe presses opposite sides of the pin while both arms receive identical commands.
+The pin starts partly inserted. Arm A holds the pin and arm B holds the socket. Can B keep the pin engaged by choosing its next correction after contact changes? In Fig. 1(b), A shifts the pin or holds between B's two decisions. In Fig. 1(c), A is braced and an external probe loads the pin. B always releases along Y and chooses how far to move along X, including zero.
 
-![In one simulated grasp the socket moves right, the pin moves left, and the socket policy uses both hands’ pad-force maps and its joint history to select a leftward follow-up.](paper/media/overview.png)
+![Figure 1. One grasp, with a green pin in arm A and a blue socket in arm B. The timeline shows how B responds to A's motion; the probe experiment shows B's lateral correction during unloading.](paper/media/bimanual-insertion.png)
 
 ## Partner motion
 
-The task starts with the pin partly inserted. Arm A holds the pin and arm B holds the socket. In the partner-motion experiment, A shifts the pin or holds between B's two socket corrections. In the probe experiment, A is braced while an external probe loads the pin. B releases along Y and chooses a lateral X offset, including zero. [Figure 1](paper/media/bimanual-insertion.png) · [Experimental setup](simulation/README.md#experimental-setup)
+In Fig. 1(b), B makes two decisions while both arms hold the parts. [Simulation setup and command timing](simulation/README.md#experimental-setup) · [Reproduce the partner-motion results](#reproduce-the-results)
 
 - **First correction.** The socket arm shifts its servo reference left or right, or holds. The pin arm then makes one of five unannounced lateral motions, including a stationary command.
 - **Follow-up.** After the pin command, a residual policy trained with proximal policy optimization (PPO) chooses left, hold or right. It reads both hands’ 8 × 8 pad-force maps and the socket arm’s joint history.
@@ -39,17 +39,24 @@ The material test uses 64 initial draws from two held-out grasps, each tested un
 
 ## When spatial tactile feedback helps
 
-With both arm commands held fixed across trials, a probe pressed opposite sides of the pin. The socket arm completed the same unloading motion and selected one of five lateral corrections. We compared its six-axis wrist wrench and both hands’ total loads with the same inputs plus an 8 × 8 map of load on each hand.
+In Fig. 1(c), both arms receive identical commands across probe conditions up to B's decision. A stays braced while the probe presses the pin from either side or remains parked. B then unloads along Y and chooses one of five X offsets. We compare B's six-axis wrist wrench and both hands' total loads with the same inputs plus a fingertip pressure map for each hand.
 
-| Insertions retained | 3 mm probe travel | 2.5 or 3.5 mm probe travel |
-| --- | ---: | ---: |
-| Residual PPO from scratch, wrench and total loads | 511/576 | 510/576 |
-| Residual PPO from scratch, with spatial maps | 548/576 | 554/576 |
-| Supervised on all five action outcomes, wrench and total loads | 548/576 | 554/576 |
-| Supervised on all five action outcomes, with spatial maps | 548/576 | 554/576 |
-| Best available action for each state | 548/576 | 554/576 |
+### Table I. External probe in Fig. 1(c)
 
-Each column contains 32 independent held-out grasps. Adding maps to PPO changed the chosen command in 123 and 145 of 576 conditions on the two tests. Those changes recovered 37 and 44 insertions, respectively, while preserving every previous success. In 27 and 28 of those recoveries, the map policy omitted an extra +3 mm lateral move that had lost insertion. With all five action outcomes available for supervision, the wrist wrench and total loads already sufficed at every state where one of the five candidates could succeed. [Paired estimates and grasp-level intervals](analysis/probe_results.json)
+Each test contains 576 conditions from 32 held-out grasps, including 192 with the probe parked. **Retained conditions** counts each condition where the pin stays engaged at both checks, 340 and 460 ms after B's decision. **Pairs with both sides retained** counts a matched left/right probe pair once if both sides succeed. Only pairs that require opposite lateral corrections qualify, giving 35 pairs at 3 mm and 43 at the new probe travels.
+
+| Controller | Retained conditions<br>3 mm | Retained conditions<br>2.5 or 3.5 mm | Pairs with both sides retained<br>3 mm | Pairs with both sides retained<br>2.5 or 3.5 mm |
+| --- | ---: | ---: | ---: | ---: |
+| Zero lateral correction | 308/576 | 306/576 | 0/35 | 0/43 |
+| Command-only supervised | 361/576 | 355/576 | 0/35 | 0/43 |
+| Wrist-force rule | 432/576 | 442/576 | 29/35 | 36/43 |
+| PPO from scratch, wrench and total loads | 511/576 | 510/576 | 29/35 | 38/43 |
+| PPO from scratch, with spatial maps | 548/576 | 554/576 | 35/35 | 43/43 |
+| Full-action supervision, wrench and total loads | 548/576 | 554/576 | 35/35 | 43/43 |
+| Full-action supervision, with spatial maps | 548/576 | 554/576 | 35/35 | 43/43 |
+| Best available action per state | 548/576 | 554/576 | 35/35 | 43/43 |
+
+Adding maps to PPO changed the chosen command in 123 and 145 of 576 conditions on the two tests. Those changes recovered 37 and 44 insertions, respectively, while preserving every previous success. In 27 and 28 of those recoveries, the map policy omitted an extra +3 mm lateral move that had lost insertion. With all five action outcomes available for supervision, the wrist wrench and total loads already sufficed at every state where one of the five candidates could succeed. [Paired estimates and grasp-level intervals](analysis/probe_results.json)
 
 <p align="center"><img src="paper/media/probe-learning.png" width="510" alt="Figure 3, external probe from Figure 1(c). Adding spatial maps increased retention for PPO trained from scratch by 6.42 and 7.64 percentage points in the two cohorts. Supervision on all five candidate outcomes reached the same ceiling with either sensor input."></p>
 
@@ -69,7 +76,7 @@ The learned follow-up preserved all 474 material-test successes under hold. On t
 
 <p align="center"><a href="paper/media/follow-up-comparison.mp4"><img src="paper/media/follow-up-comparison.gif" width="760" alt="Play the two synchronized branches. Holding loses insertion and the learned leftward correction recovers it."></a></p>
 
-The pin moves 4.80 mm left after the socket’s first correction. Holding leaves **−0.057 mm** of clearance at the settled check. PPO shifts the socket 4.74 mm left and finishes with **+1.769 mm**. The task requires at least 0.10 mm at both checks. [Play MP4](paper/media/follow-up-comparison.mp4) · [Branch measurements](paper/media/follow-up-comparison.json)
+After B’s first correction, A receives a command to shift the pin 4.80 mm left. Holding leaves **−0.057 mm** of clearance at the settled check. PPO commands a 4.74 mm leftward socket correction and finishes with **+1.769 mm**. The task requires at least 0.10 mm at both checks. [Play MP4](paper/media/follow-up-comparison.mp4) · [Branch measurements](paper/media/follow-up-comparison.json)
 
 <details>
 <summary>View decision and scoring frames</summary>
@@ -90,7 +97,7 @@ The pin receives a stationary command. The policy also chooses to hold, so the t
 
 <p align="center"><a href="paper/media/shared-failure.mp4"><img src="paper/media/shared-failure.gif" width="760" alt="Holding fails in both panels after a small leftward pin command."></a></p>
 
-The pin moves 1.97 mm left. The policy holds, just as the reference does, and both branches finish with 0.063 mm of clearance. In a separate replay from the same state, a leftward correction reaches 1.196 mm and passes both checks. [Play MP4](paper/media/shared-failure.mp4) · [Measurements for all three actions](paper/media/shared-failure.json)
+A receives a command to shift the pin 1.97 mm left. The policy holds, just as the reference does, and both branches finish with 0.063 mm of clearance. In a separate replay from the same state, a leftward correction reaches 1.196 mm and passes both checks. [Play MP4](paper/media/shared-failure.mp4) · [Measurements for all three actions](paper/media/shared-failure.json)
 
 ### Grasp acquisition
 
@@ -125,7 +132,9 @@ The upper traces show pin–socket normal force over 320 ms. The lower dots show
 
 ## Reproduce the results
 
-These commands reproduce the partner-motion analyses and evaluate the released checkpoints. The external-probe comparison is available in the [paired results file](analysis/probe_results.json). From the repository root, run the following with Python and NumPy.
+The commands below reproduce the partner-motion analyses and evaluate the released checkpoints. For the external probe, the repository provides the aggregate outcomes for Table I and Fig. 3, including the counts and paired intervals. [External-probe data guide](analysis/README.md#external-probe-comparison) · [Recorded results](analysis/probe_results.json)
+
+Run the partner-motion checks from the repository root.
 
 ```bash
 python3 -m venv .venv
@@ -141,7 +150,7 @@ To regenerate the contact signal figure, install Matplotlib in the same environm
 
 ## Run an experiment
 
-On GitHub, open [Run paper experiment](https://github.com/BitAdventurer/bimanual-contact-feedback/actions/workflows/experiments.yml), select **Run workflow** on `main`, and choose a run.
+To run the partner-motion experiment on GitHub, open [Run paper experiment](https://github.com/BitAdventurer/bimanual-contact-feedback/actions/workflows/experiments.yml), select **Run workflow** on `main`, and choose a run.
 
 | Workflow option | What it runs |
 | --- | --- |

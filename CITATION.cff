@@ -2,15 +2,23 @@ cff-version: 1.2.0
 message: "If you use these simulations, please cite the accompanying research manuscript."
 title: "When Spatial Tactile Feedback Improves Follow-Up Corrections in Bimanual Insertion"
 authors:
-  - given-names: "Chanh-Hoon"
+  - given-names: "Chang-Hoon"
     family-names: "Ji"
-    affiliation: "Korea University"
+    affiliation: "Department of Artificial Intelligence, Korea University, Seoul, Republic of Korea"
+    email: "ckdgns0611@korea.ac.kr"
+  - given-names: "Tae-Eui"
+    family-names: "Kam"
+    affiliation: "Department of Artificial Intelligence, Korea University, Seoul, Republic of Korea"
 repository-code: "https://github.com/BitAdventurer/bimanual-contact-feedback"
 preferred-citation:
   type: unpublished
   title: "When Spatial Tactile Feedback Improves Follow-Up Corrections in Bimanual Insertion"
   authors:
-    - given-names: "Chanh-Hoon"
+    - given-names: "Chang-Hoon"
       family-names: "Ji"
-      affiliation: "Korea University"
+      affiliation: "Department of Artificial Intelligence, Korea University, Seoul, Republic of Korea"
+      email: "ckdgns0611@korea.ac.kr"
+    - given-names: "Tae-Eui"
+      family-names: "Kam"
+      affiliation: "Department of Artificial Intelligence, Korea University, Seoul, Republic of Korea"
   url: "https://github.com/BitAdventurer/bimanual-contact-feedback/blob/main/paper/bimanual_contact_feedback.pdf"

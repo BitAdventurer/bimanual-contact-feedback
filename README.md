@@ -1,6 +1,6 @@
 # When Spatial Tactile Feedback Improves Follow-Up Corrections in Bimanual Insertion
 
-Chanh-Hoon Ji · Korea University
+Chang-Hoon Ji and Tae-Eui Kam · Department of Artificial Intelligence, Korea University, Seoul, Republic of Korea
 
 [Paper (5-page PDF)](paper/bimanual_contact_feedback.pdf) · [Supplement](paper/socket_map_supplement.pdf) · [Matched replays](#matched-replays) · [Reproduce the partner-motion results](#reproduce-the-results)
 
@@ -185,4 +185,4 @@ Material-randomized PPO scored 709/960 against 462/960 for nominal-only training
 
 ## Citation
 
-Chanh-Hoon Ji. *When Spatial Tactile Feedback Improves Follow-Up Corrections in Bimanual Insertion*. Korea University. [Manuscript](paper/bimanual_contact_feedback.pdf) · [Citation metadata](CITATION.cff) · [Manuscript references (BibTeX)](paper/references.bib)
+Chang-Hoon Ji and Tae-Eui Kam. *When Spatial Tactile Feedback Improves Follow-Up Corrections in Bimanual Insertion*. Korea University. [Manuscript](paper/bimanual_contact_feedback.pdf) · [Citation metadata](CITATION.cff) · [Manuscript references (BibTeX)](paper/references.bib)

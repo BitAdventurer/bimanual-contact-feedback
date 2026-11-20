@@ -31,9 +31,9 @@ For opposite large pin motions after the same first correction, no common follow
 
 The material test uses 64 initial draws from two held-out grasps, each tested under three material settings and five motions. The second test uses 12 newly acquired grasps, each with six variants and five motions at nominal material. Intervals resample whole initial draws within each material-test grasp or whole new grasps. [Paired analysis and data](analysis/README.md)
 
-<p align="center"><img src="paper/media/contact-results.png" width="570" alt="Paper figure comparing fixed and feedback-guided insertion, changes in the socket-local decision when contact is cut, and insertion when socket observations are held or replaced."></p>
+<p align="center"><img src="paper/media/contact-results.png" width="570" alt="Figure 2, partner motion from Figure 1(b). Panels (a,c) show insertion retention. Panel (b) counts opposite pin motions that elicited different socket-arm decisions."></p>
 
-**What passes through contact?** In a separate test, a policy sensing only the socket hand chose different follow-ups for opposite pin motions in **85/96** comparisons with part contact intact and **0/96** after contact was disabled. Both hands kept their grasps. Panel (b) counts action changes. Panels (a) and (c) count insertions with contact intact. [Contact experiment](mechanism/README.md)
+**What passes through contact?** In a separate test, a policy sensing only the socket hand chose different follow-ups for opposite pin motions in **85/96** comparisons with part contact intact and **0/96** after contact was disabled. Both hands kept their grasps. Panel (b) counts action changes. Panels (a) and (c) compare retention rates with contact intact. [Contact experiment](mechanism/README.md)
 
 **Socket-map sensitivity (supplement).** Shuffling socket pressure locations at fixed total load reduced material-test successes from 709 to 609. Replacing the spatial distribution with that of the same grasp under a stationary pin gave 699. A separately trained wrist-wrench policy reached 722/960. The simulated rigid pads put 99.97% of the training socket load on four corner cells on average. These interventions test sensitivity to rearranging that input. [Supplementary Figure S1 and paired results](paper/socket_map_supplement.pdf)
 
@@ -49,9 +49,9 @@ With both arm commands held fixed across trials, a probe pressed opposite sides 
 | Supervised on all five action outcomes, with spatial maps | 548/576 | 554/576 |
 | Best available action for each state | 548/576 | 554/576 |
 
-Each column contains 32 independent held-out grasps. Adding maps to PPO recovered 37 and 44 insertions, respectively, while preserving every previous success. In 27 and 28 of those recoveries, the map policy omitted an extra +3 mm lateral move that had lost insertion. With all five action outcomes available for supervision, the wrist wrench and total loads already sufficed at every state where one of the five candidates could succeed. [Paired estimates and grasp-level intervals](analysis/probe_results.json)
+Each column contains 32 independent held-out grasps. Adding maps to PPO changed the chosen command in 123 and 145 of 576 conditions on the two tests. Those changes recovered 37 and 44 insertions, respectively, while preserving every previous success. In 27 and 28 of those recoveries, the map policy omitted an extra +3 mm lateral move that had lost insertion. With all five action outcomes available for supervision, the wrist wrench and total loads already sufficed at every state where one of the five candidates could succeed. [Paired estimates and grasp-level intervals](analysis/probe_results.json)
 
-<p align="center"><img src="paper/media/probe-learning.png" width="510" alt="Fig. 3. Adding spatial maps increased retention for PPO trained from scratch by 6.42 and 7.64 percentage points in the two cohorts. Supervision on all five candidate outcomes reached the same ceiling with either sensor input."></p>
+<p align="center"><img src="paper/media/probe-learning.png" width="510" alt="Figure 3, external probe from Figure 1(c). Adding spatial maps increased retention for PPO trained from scratch by 6.42 and 7.64 percentage points in the two cohorts. Supervision on all five candidate outcomes reached the same ceiling with either sensor input."></p>
 
 ## Matched replays
 

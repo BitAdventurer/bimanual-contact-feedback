@@ -8,6 +8,26 @@ from torch import nn
 torch.set_num_threads(1)
 
 
+def resolve_device(requested):
+    if requested == "cpu":
+        return "cpu"
+    if requested not in ("auto", "cuda"):
+        raise ValueError(f"Unknown training device: {requested}")
+    if torch.cuda.is_available():
+        return "cuda"
+    if requested == "auto":
+        return "cpu"
+    raise ValueError(
+        "CUDA was requested but PyTorch cannot access a CUDA device. "
+        "Check the CUDA-enabled PyTorch installation and GPU visibility, "
+        "or choose --device cpu."
+    )
+
+
+def draw_indices(rng, high, size, device):
+    return torch.as_tensor(rng.integers(high, size=size), device=device)
+
+
 class CachedContact:
     def __init__(self, root, mid, success, rng):
         self.root = root
@@ -16,8 +36,8 @@ class CachedContact:
         self._rng = rng
 
     def reset(self, n):
-        self._family = self._rng.integers(len(self.root), size=n)
-        self._future = self._rng.integers(5, size=n)
+        self._family = draw_indices(self._rng, len(self.root), n, self.root.device)
+        self._future = draw_indices(self._rng, 5, n, self.root.device)
         return self.root[self._family]
 
     def first(self, action, reveal=True):
@@ -27,10 +47,8 @@ class CachedContact:
 
     def finish(self, action):
         y = self._success[self._family, self._future, self._a, action]
-        log = np.stack((self._family, self._future, self._a, action, y), axis=1).astype(
-            np.int16
-        )
-        return torch.from_numpy(y.astype(np.float32)), log
+        log = torch.stack((self._family, self._future, self._a, action, y), dim=1)
+        return y.float(), log.to(torch.int16).cpu().numpy()
 
 
 class Policy(nn.Module):
@@ -48,8 +66,8 @@ class Policy(nn.Module):
     def export(self, prefix):
         out = {}
         for i, layer in enumerate((self.hidden1, self.hidden2, self.actor)):
-            out[prefix + "W" + str(i)] = layer.weight.detach().numpy()
-            out[prefix + "b" + str(i)] = layer.bias.detach().numpy()
+            out[prefix + "W" + str(i)] = layer.weight.detach().cpu().numpy()
+            out[prefix + "b" + str(i)] = layer.bias.detach().cpu().numpy()
         return out
 
 
@@ -86,18 +104,19 @@ def advantage(x, a, logp, v, reward):
     )
 
 
-def fit(inp):
+def fit(inp, device="cpu"):
     method, mode, seed, training, roots, mids, success, dest = inp
     torch.set_num_threads(1)
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
-    root = torch.from_numpy(roots)
-    mid = torch.from_numpy(mids)
-    env = CachedContact(root, mid, success, rng)
+    root = torch.as_tensor(roots, device=device)
+    mid = torch.as_tensor(mids, device=device)
+    outcomes = torch.as_tensor(success, device=device)
+    env = CachedContact(root, mid, outcomes, rng)
     committed = method.endswith("_committed")
     sampled = method.startswith("ppo")
-    net = Policy(root.shape[-1], 9 if committed else 3)
-    feedback = Policy(mid.shape[-1], 3) if not committed else None
+    net = Policy(root.shape[-1], 9 if committed else 3).to(device)
+    feedback = None if committed else Policy(mid.shape[-1], 3).to(device)
     all_params = list(net.parameters()) + (
         [] if committed else list(feedback.parameters())
     )
@@ -105,7 +124,7 @@ def fit(inp):
     batch = training["batch_episodes"]
     mb = training["minibatch"]
     if not sampled:
-        teachers = torch.from_numpy(success.astype(np.float32))
+        teachers = outcomes.float()
         target_root = (
             teachers.mean(1).reshape(len(root), 9)
             if committed
@@ -122,19 +141,18 @@ def fit(inp):
             x = env.reset(batch)
             with torch.no_grad():
                 action, logp, v, ent = act(net, x)
-                a = action.numpy() // 3 if committed else action.numpy()
+                a = action // 3 if committed else action
                 m = env.first(a, reveal=not committed)
                 if committed:
-                    b = action.numpy() % 3
+                    b = action % 3
                     ent2 = 0.0
                 else:
-                    b_t, lp_m, v_m, ent2 = act(feedback, m)
-                    b = b_t.numpy()
+                    b, lp_m, v_m, ent2 = act(feedback, m)
                 reward, replay = env.finish(b)
                 traj.append(replay)
                 stage1 = advantage(x, action, logp, v, reward)
                 if not committed:
-                    stage2 = advantage(m, b_t, lp_m, v_m, reward)
+                    stage2 = advantage(m, b, lp_m, v_m, reward)
             record = dict(
                 update=update,
                 sampled_reward=float(reward.mean()),
@@ -142,17 +160,17 @@ def fit(inp):
                 mid_entropy=ent2,
             )
         else:
-            i = rng.integers(len(root), size=batch)
+            i = draw_indices(rng, len(root), batch, device)
             x = root[i]
             root_y = target_root[i]
             if not committed:
-                z = rng.integers(5, size=batch)
-                a = rng.integers(3, size=batch)
+                z = draw_indices(rng, 5, batch, device)
+                a = draw_indices(rng, 3, batch, device)
                 m = mid[i, z, a]
                 mid_y = teachers[i, z, a]
             record = dict(update=update)
         for _ in range(training["epochs"]):
-            order = rng.permutation(batch)
+            order = torch.as_tensor(rng.permutation(batch), device=device)
             for off in range(0, batch, mb):
                 idx = order[off : off + mb]
                 if sampled:

@@ -49,12 +49,29 @@ def paths_for(regime, mode, method, step, seeds):
     return [f"{regime}/{mode}/{method}/{seed}/step_{step:03d}.npz" for seed in seeds]
 
 
-def train(out, workers, controls=False, smoke=False):
-    from agent import fit as fit_one
+def fit_jobs(inputs, workers, device):
+    from agent import fit
 
+    if device == "cuda":
+        # One process owns the GPU and runs all requested policies and seeds.
+        for item in inputs:
+            yield fit(item, device=device)
+    else:
+        with ProcessPoolExecutor(max_workers=workers) as pool:
+            yield from pool.map(fit, inputs)
+
+
+def train(out, workers, controls=False, smoke=False, device="cpu"):
+    from agent import resolve_device
+
+    device = resolve_device(device)
     if out.exists():
         raise FileExistsError(f"Choose a new output directory: {out}")
     out.mkdir(parents=True)
+    if device == "cuda":
+        print("Training on CUDA with one GPU worker.", flush=True)
+    else:
+        print(f"Training on CPU with up to {workers} worker(s).", flush=True)
     seeds = [SEEDS[0]] if smoke else SEEDS
     cfg = dict(TRAINING)
     if smoke:
@@ -92,48 +109,35 @@ def train(out, workers, controls=False, smoke=False):
             mode: features(data, enc, mode) for mode in sorted(set(m for _, m in jobs))
         }
         valid_x = {mode: features(validation, enc, mode) for mode in train_x}
-        with ProcessPoolExecutor(max_workers=workers) as pool:
-            submitted = [
-                pool.submit(
-                    fit_one,
-                    (
-                        method,
-                        mode,
-                        seed,
-                        cfg,
-                        *train_x[mode],
-                        data["success"],
-                        str(folder),
-                    ),
-                )
-                for method, mode in jobs
-                for seed in seeds
-            ]
-            for job in submitted:
-                mode, method, seed, records = job.result()
-                name = f"{regime}/{method}/{mode}/{seed}"
-                if method.startswith("ppo"):
-                    t = arrays(folder / mode / method / str(seed) / "onpolicy.npz")[
-                        "transitions"
-                    ]
-                    i, z, a, b, y = t.transpose(2, 0, 1)
-                    if t.shape != (
-                        cfg["updates"],
-                        cfg["batch_episodes"],
-                        5,
-                    ) or not np.array_equal(data["success"][i, z, a, b], y):
-                        raise ValueError("Selected terminal reward audit failed")
-                    learning[name] = {
-                        "sampled_terminal_rewards": int(y.size),
-                        "first_window_success": float(y[:16].mean()),
-                        "last_window_success": float(y[-16:].mean()),
-                    }
-                else:
-                    learning[name] = {
-                        "gradient_updates": len(records)
-                        * cfg["epochs"]
-                        * (cfg["batch_episodes"] // cfg["minibatch"])
-                    }
+        inputs = (
+            (method, mode, seed, cfg, *train_x[mode], data["success"], str(folder))
+            for method, mode in jobs
+            for seed in seeds
+        )
+        for mode, method, seed, records in fit_jobs(inputs, workers, device):
+            name = f"{regime}/{method}/{mode}/{seed}"
+            if method.startswith("ppo"):
+                t = arrays(folder / mode / method / str(seed) / "onpolicy.npz")[
+                    "transitions"
+                ]
+                i, z, a, b, y = t.transpose(2, 0, 1)
+                if t.shape != (
+                    cfg["updates"],
+                    cfg["batch_episodes"],
+                    5,
+                ) or not np.array_equal(data["success"][i, z, a, b], y):
+                    raise ValueError("Selected terminal reward audit failed")
+                learning[name] = {
+                    "sampled_terminal_rewards": int(y.size),
+                    "first_window_success": float(y[:16].mean()),
+                    "last_window_success": float(y[-16:].mean()),
+                }
+            else:
+                learning[name] = {
+                    "gradient_updates": len(records)
+                    * cfg["epochs"]
+                    * (cfg["batch_episodes"] // cfg["minibatch"])
+                }
         for method, mode in jobs:
             name = f"{regime}/{method}/{mode}"
             board = {}
@@ -166,6 +170,8 @@ def train(out, workers, controls=False, smoke=False):
         files=checks,
         dataset_manifest=digest(DATA / "manifest.json"),
     )
+    if device == "cuda":
+        lock["training_device"] = device
     write_json(out / "selected.json", lock)
 
 
@@ -220,10 +226,21 @@ def evaluate(out, native_test=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
-    sub.add_parser("smoke", help="Fit and score a two-update PPO in a temporary folder")
+    smoke = sub.add_parser(
+        "smoke", help="Fit and score a two-update PPO in a temporary folder"
+    )
     fit = sub.add_parser("fit", help="Fit fresh models without opening test data")
+    for command in (smoke, fit):
+        command.add_argument(
+            "--device",
+            choices=("cpu", "cuda", "auto"),
+            default="cpu",
+            help="Policy training device (default: cpu). Auto uses CUDA if available.",
+        )
     fit.add_argument("--out", type=Path, required=True, help="A new run directory")
-    fit.add_argument("--workers", type=int, default=3)
+    fit.add_argument(
+        "--workers", type=int, default=3, help="CPU training workers. CUDA uses one."
+    )
     fit.add_argument(
         "--controls",
         action="store_true",
@@ -243,7 +260,7 @@ def main():
     if args.command == "smoke":
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / "run"
-            train(out, 1, smoke=True)
+            train(out, 1, smoke=True, device=args.device)
             report = evaluate(out)
             assert (
                 report["randomized_minus_matched_nominal"]["evaluated_futures"] == 960
@@ -254,7 +271,7 @@ def main():
     elif args.command == "fit":
         if args.workers < 1:
             parser.error("--workers must be positive")
-        train(args.out, args.workers, args.controls)
+        train(args.out, args.workers, args.controls, device=args.device)
     else:
         report = evaluate(args.run, args.native_test)
         if args.json is not None:

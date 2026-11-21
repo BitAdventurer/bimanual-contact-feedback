@@ -163,7 +163,7 @@ Results appear in the job log and downloadable workflow artifact.
 <details>
 <summary>Run the physics simulator and retrain locally</summary>
 
-The reference environment is Linux x86-64 with CPython 3.8.20. Use a virtual environment created with that interpreter. These headless experiments run on CPU.
+The reference CPU run uses Linux x86-64 and CPython 3.8.20. Install the following packages in a virtual environment created with that interpreter.
 
 ```bash
 python -m pip install -r simulation/requirements.txt
@@ -173,7 +173,13 @@ python -m pip install -r training/requirements.txt
 bash scripts/reproduce.sh runs/full 2
 ```
 
-The last argument sets the CPU worker count. Choose a new output directory for each full run. See `runs/full/native-test.json` for the trained policy scores and `runs/full/native-contact-cut.json` for the contact comparison. The individual steps can also be run separately.
+On a machine with an NVIDIA GPU, keep the MuJoCo environment active and point `TRAIN_PYTHON` at a CUDA-enabled training environment. The example uses 15 CPU simulation workers and one GPU trainer. [GPU environment setup](training/README.md#cuda-training)
+
+```bash
+TRAIN_PYTHON="$PWD/.venv-gpu/bin/python" bash scripts/reproduce.sh runs/full-gpu 15 --device cuda
+```
+
+MuJoCo replays held-out states on the CPU while the GPU fits the partner-motion policies on archived training transitions. Validation selects checkpoints. Final scoring starts when both the fit and held-out replay have succeeded. Use a new output directory for each run. Its `native-test.json` contains the trained policy scores and `native-contact-cut.json` contains the contact comparison. The individual steps can also be run separately.
 
 ```bash
 python simulation/replay.py smoke

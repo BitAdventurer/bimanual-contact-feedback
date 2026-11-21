@@ -1,6 +1,6 @@
 # Train the bimanual feedback policies
 
-Arm A holds the pin and moves after arm B makes its first correction. B holds the socket and chooses a second correction from its joint history and the two hands’ contact maps. Train on the provided simulated transitions and measure whether the learned response preserves insertion. The training and evaluation commands use CPU only.
+Arm A holds the pin and moves after arm B makes its first correction. B holds the socket and chooses a second correction from its joint history and the two hands’ contact maps. Train on the provided simulated transitions and measure whether the learned response preserves insertion. Training supports CPU and CUDA. Evaluation of a selected checkpoint uses NumPy on the CPU.
 
 ## Evaluate the paper's frozen policies
 
@@ -43,6 +43,22 @@ Set up the [native simulator](../simulation/README.md) and fit the controller on
 The scorer matches every native family ID to the fixed 64 draws and four materials, checks material values and common first-action branches, rounds joint measurements, and derives all 11,520 rewards from the five physical guards at both endpoints. It retains draws outside the initial guards. With `--native-test`, the model reads its observation arrays and receives its outcome labels from this newly integrated grid.
 
 An independent simulator installation regenerated all 256 rows. The 17 initially outside the guards remained in the analysis. The six learned ensembles selected identical first and second actions on all 1,280 paths per policy in the native and bundled evaluations. The randomized and nominal primary counts remained 709 and 462. This checks the same assigned draws through a second physics integration; the number of independent nuisance draws remains 64.
+
+## CUDA training
+
+The reference commands above default to CPU. To train on an RTX 5090, create a separate Linux Python 3.11 environment from the repository root. The following versions match the CUDA environment used in the device check. [PyTorch wheel archive](https://pytorch.org/get-started/previous-versions/#v271)
+
+```bash
+python3.11 -m venv .venv-gpu
+.venv-gpu/bin/python -m pip install 'numpy==1.26.4' 'scipy==1.15.3'
+.venv-gpu/bin/python -m pip install 'torch==2.7.1' --index-url https://download.pytorch.org/whl/cu128
+.venv-gpu/bin/python training/run.py smoke --device cuda
+.venv-gpu/bin/python training/run.py fit --device cuda --out runs/contact-gpu --controls
+```
+
+Use `--device cuda` to require a GPU or `--device auto` to select CUDA when available and CPU otherwise. CUDA uses one training process for all seeds. The [full experiment](../README.md#run-an-experiment) also runs the CPU simulator and joins its held-out grid with the validation-selected checkpoints. GPU sampling and numerical kernels can produce different refits from the archived CPU checkpoints.
+
+In a full run with 15 CPU simulation workers and one RTX 5090, all 11,520 native branch outcomes matched the archived outcomes. On the same 960 interpolated-material paths, the CUDA-refitted randomized bilateral PPO retained insertion in 712 cases. The archived CPU policy retained insertion in 709. This single refit checks the execution path and scoring.
 
 ## Training and evaluation
 

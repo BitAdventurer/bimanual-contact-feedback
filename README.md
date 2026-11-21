@@ -2,15 +2,21 @@
 
 Chang-Hoon Ji, Yu-Kyum Kang, Ji-Young Hwang, and Tae-Eui Kam · Department of Artificial Intelligence, Korea University, Seoul, Republic of Korea
 
-[Paper (5-page PDF)](paper/bimanual_contact_feedback.pdf) · [Partner-motion results](#partner-motion-results) · [External-probe results (Table I)](#table-i-external-probe-in-fig-1c) · [Matched replays](#matched-replays)
+[Paper (5-page PDF)](paper/bimanual_contact_feedback.pdf) · [Watch the probe comparison](#what-the-pressure-maps-changed) · [Partner-motion results](#partner-motion-results) · [External-probe results (Table I)](#table-i-external-probe-in-fig-1c) · [Matched replays](#matched-replays)
 
 The pin starts partly inserted. Arm A holds the pin and arm B holds the socket. Can B keep the pin engaged by choosing its next correction after contact changes? In Fig. 1(b), A shifts the pin or holds between B's two decisions. In Fig. 1(c), A is braced and an external probe loads the pin. B always releases along Y and chooses how far to move along X, including zero.
 
-![Figure 1. One grasp, with a green pin in arm A and a blue socket in arm B. The timeline shows how B responds to A's motion; the probe experiment shows B's lateral correction during unloading.](paper/media/bimanual-insertion.png)
+### Watch the socket correction
+
+<p align="center"><a href="paper/media/recovery-wall-detail.mp4"><img src="paper/media/recovery-wall-detail.gif" width="700" alt="Two branches share a grasp until 0.54 s. The magnified cross-sections show the green shaft touching the blue socket wall under hold and clearing it after the learned leftward correction."></a></p>
+
+**Partner motion, Fig. 1(b).** The upper views show the same pin motion. At 0.54 s the left branch holds the socket reference and the right branch commands a 4.74 mm leftward correction. Look inside the **white box** in each socket section. The adjacent view enlarges that edge and turns the nearest wall upright. The yellow line marks the gap. At the last check the signed gap is **−0.057 mm** with hold and **+1.769 mm** with correction. Both hands keep their respective grasps in both branches. [Full-size video](paper/media/recovery-wall-detail.mp4) · [Final frame](paper/media/recovery-wall-detail.png) · [Both checks and source replay](#recovery)
 
 ## Partner motion
 
 In Fig. 1(b), B makes two decisions while both arms hold the parts. [Simulation setup and command timing](simulation/README.md#experimental-setup) · [Reproduce the partner-motion results](#reproduce-the-results)
+
+![Figure 1. One grasp, with a green pin in arm A and a blue socket in arm B. The timeline shows how B responds to A's motion; the probe experiment shows B's lateral correction during unloading.](paper/media/bimanual-insertion.png)
 
 - **First correction.** The socket arm shifts its servo reference left or right, or holds. The pin arm then makes one of five unannounced lateral motions, including a stationary command.
 - **Follow-up.** After the pin command, a residual policy trained with proximal policy optimization (PPO) chooses left, hold or right. It reads both hands’ 8 × 8 pad-force maps and the socket arm’s joint history.
@@ -41,6 +47,12 @@ The material test uses 64 initial draws from two held-out grasps, each tested un
 
 In Fig. 1(c), both arms receive identical commands across probe conditions up to B's decision. A stays braced while the probe presses the pin from either side or remains parked. B then unloads along Y and chooses one of five X offsets. We compare B's six-axis wrist wrench and both hands' total loads with the same inputs plus a fingertip pressure map for each hand.
 
+### What the pressure maps changed
+
+<p align="center"><a href="paper/media/probe-policy-comparison.mp4"><img src="paper/media/probe-policy-comparison.gif" width="700" alt="Same grasp and probe, with the same planned Y release. The wrist-and-loads PPO adds 3 mm along X and fails; the PPO with spatial maps chooses zero X offset and retains insertion."></a></p>
+
+**External probe, Fig. 1(c).** Both socket policies execute the planned release along Y. Watch what they add along X. With wrist wrench and total loads, PPO commands **+3 mm** and loses wall clearance. With the spatial pressure maps added, PPO commands **0 mm** and retains insertion at both checks. The final gaps are **−0.122 mm** and **+0.819 mm**, respectively. This is one of 27 such recoveries in the 3 mm probe cohort. [Full-size video](paper/media/probe-policy-comparison.mp4) · [Matched branch measurements](paper/media/probe-policy-comparison.json)
+
 ### Table I. External probe in Fig. 1(c)
 
 Each test contains 576 conditions from 32 held-out grasps, including 192 with the probe parked. **Retained conditions** counts each condition where the pin stays engaged at both checks, 340 and 460 ms after B's decision. **Pairs with both sides retained** counts a matched left/right probe pair once if both sides succeed. Only pairs that require opposite lateral corrections qualify, giving 35 pairs at 3 mm and 43 at the new probe travels.
@@ -62,7 +74,7 @@ Adding maps to PPO changed the chosen command in 123 and 145 of 576 conditions o
 
 ## Matched replays
 
-All three replays below share the grasp, the material and the first socket correction. Each is the first released material-test path with that outcome. Each film shows the same trial side by side. On the left the socket holds its reference after the pin command. On the right the policy chooses its follow-up. Both views use the same fixed close-up. The one-second simulation plays at quarter speed so the millimetre-scale corrections are visible. Click a preview for its MP4, or [watch both arms acquire the parts](#grasp-acquisition) for a wider view.
+The three partner-motion examples share a grasp, material and first socket correction. Each is the first archived path with its pair of outcomes. Only the recovery example has different follow-up commands in the two branches. [Watch both arms acquire the parts](#grasp-acquisition) for the wider setup.
 
 | Episode | Pin command | Holding the socket reference | Learned follow-up | Material-test paths |
 | --- | --- | --- | --- | ---: |
@@ -74,30 +86,29 @@ The learned follow-up preserved all 474 material-test successes under hold. On t
 
 ### Recovery
 
-<p align="center"><a href="paper/media/follow-up-comparison.mp4"><img src="paper/media/follow-up-comparison.gif" width="760" alt="Play the two synchronized branches. Holding loses insertion and the learned leftward correction recovers it."></a></p>
-
-After B’s first correction, A receives a command to shift the pin 4.80 mm left. Holding leaves **−0.057 mm** of clearance at the settled check. PPO commands a 4.74 mm leftward socket correction and finishes with **+1.769 mm**. The task requires at least 0.10 mm at both checks. [Play MP4](paper/media/follow-up-comparison.mp4) · [Branch measurements](paper/media/follow-up-comparison.json)
-
-<details>
-<summary>View decision and scoring frames</summary>
-
-<p align="center"><img src="paper/media/recovery-frames.png" width="760" alt="The two branches at the shared decision and both insertion checks. Holding ends at minus 0.057 mm clearance. Shifting left ends at plus 1.769 mm."></p>
-
-The top row holds the reference and the bottom row applies the learned follow-up. Times are in simulation seconds.
-
-</details>
+The pin arm is commanded 4.80 mm left. After the shared decision state, hold gives **−0.064 / −0.057 mm** of wall clearance at 0.88 / 1.00 s. The learned leftward correction gives **+2.310 / +1.769 mm**. Success requires at least **+0.10 mm** at each check, together with the depth, angle, span and grip criteria. [Watch the wall close-up](#watch-the-socket-correction) · [Original camera footage](paper/media/follow-up-comparison.mp4) · [Endpoint measurements](paper/media/follow-up-comparison.json) · [Frame-by-frame geometry](paper/media/recovery-geometry.json)
 
 ### Success preserved
 
-<p align="center"><a href="paper/media/preserved-success.mp4"><img src="paper/media/preserved-success.gif" width="760" alt="Both socket responses hold with a stationary pin command and preserve insertion."></a></p>
+<details>
+<summary>Both branches hold and pass · stationary pin command</summary>
 
-The pin receives a stationary command. The policy also chooses to hold, so the two views coincide and both branches pass. [Play MP4](paper/media/preserved-success.mp4) · [Measurements](paper/media/preserved-success.json)
+<p align="center"><a href="paper/media/preserved-success.mp4"><img src="paper/media/preserved-success.gif" width="760" alt="A stationary pin command and the same socket hold in both branches preserve insertion."></a></p>
+
+The policy selects the reference action, so the views coincide. [Video](paper/media/preserved-success.mp4) · [Measurements](paper/media/preserved-success.json)
+
+</details>
 
 ### Missed recovery
 
-<p align="center"><a href="paper/media/shared-failure.mp4"><img src="paper/media/shared-failure.gif" width="760" alt="Holding fails in both panels after a small leftward pin command."></a></p>
+<details>
+<summary>Both branches hold and fail · small leftward pin command</summary>
 
-A receives a command to shift the pin 1.97 mm left. The policy holds, just as the reference does, and both branches finish with 0.063 mm of clearance. In a separate replay from the same state, a leftward correction reaches 1.196 mm and passes both checks. [Play MP4](paper/media/shared-failure.mp4) · [Measurements for all three actions](paper/media/shared-failure.json)
+<p align="center"><a href="paper/media/shared-failure.mp4"><img src="paper/media/shared-failure.gif" width="760" alt="The same hold in both views misses the clearance threshold after a small pin motion."></a></p>
+
+A receives a 1.97 mm leftward pin command. Both holds end at +0.063 mm of clearance. An additional replay from the same state reaches +1.196 mm with a leftward socket correction and passes both checks. [Video](paper/media/shared-failure.mp4) · [Measurements for all three actions](paper/media/shared-failure.json)
+
+</details>
 
 ### Grasp acquisition
 

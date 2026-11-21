@@ -1,0 +1,120 @@
+{
+  "row_id": "g261142012_a1_w-6.5_e+1",
+  "selection": "Median row by sorted ID among FRESH conditions in which scratch PPO with wrench and total loads added +3 mm in X and lost retention, and adding both hands' pressure maps chose zero X and retained insertion.",
+  "qualifying_conditions": 27,
+  "cohort_conditions": 576,
+  "grasp_seed": 261142012,
+  "external_probe_side": 1,
+  "first_action_index": 1,
+  "wall_seating_offset_mm": -6.5,
+  "common_y_release_mm": 6.5,
+  "decision_sha256": "129b46085056be7305a55795e4d8f06328df2fd82b1a51253b93ed23e8f5e24b",
+  "parent_sha256": "0116cf5d3bc7e19c329b4bbde243a5e0aa698edf26971a058d55528b3551aab1",
+  "outcome_sha256": "41da0ca01e8835d3d8d7a6bc7b019562e9e2f4e0d1be80bf54de012c99fc4ee7",
+  "policy_predictions_sha256": "11bbe1744fdf99894a08df81e00eaaf1b8572f41de6b4cb5e941fc193c2162b9",
+  "model_weights_sha256": "4b0c8bbad31f76f0513ab909d8478fa8c635e5e5dbdc96a0efdd0670fed85283",
+  "branches": [
+    {
+      "success": false,
+      "before_rim_clearances_mm": [
+        -0.21140512376111203,
+        5.862538319718391,
+        0.09011900297996832,
+        5.86906634747956
+      ],
+      "after_rim_clearances_mm": [
+        -0.12184759225070813,
+        5.770669135676882,
+        0.2235891267124944,
+        5.7616729117106
+      ],
+      "min_clearance_mm": -0.4207150693594126,
+      "before_full": true,
+      "before_depth_mm": 25.929294291931324,
+      "before_angle_rad": 0.019229135840601996,
+      "before_clearance_mm": -0.21140512376111031,
+      "before_pad_N": [
+        [
+          15.573611381938473,
+          19.263924376748367
+        ],
+        [
+          17.705352508993677,
+          18.860627171366655
+        ]
+      ],
+      "after_full": true,
+      "after_depth_mm": 25.925888921195135,
+      "after_angle_rad": 0.019237581101934027,
+      "after_clearance_mm": -0.12184759225070639,
+      "after_pad_N": [
+        [
+          15.913414979769309,
+          18.96910096438312
+        ],
+        [
+          17.744938654220825,
+          18.829526200265615
+        ]
+      ],
+      "policy": "wrist_loads_ppo_scratch",
+      "x_command_mm": 3.0
+    },
+    {
+      "success": true,
+      "before_rim_clearances_mm": [
+        0.8964317260208629,
+        4.630295337532868,
+        2.225169803848865,
+        3.70768584314962
+      ],
+      "after_rim_clearances_mm": [
+        0.8186609203013409,
+        4.691009221147935,
+        4.78035081742945,
+        1.1490563655428763
+      ],
+      "min_clearance_mm": -0.4207150693594126,
+      "before_full": true,
+      "before_depth_mm": 25.645671440616795,
+      "before_angle_rad": 0.026037349205059596,
+      "before_clearance_mm": 0.8964317260208629,
+      "before_pad_N": [
+        [
+          16.432209906998885,
+          18.412346839793976
+        ],
+        [
+          17.67776245685187,
+          18.908586562655984
+        ]
+      ],
+      "after_full": true,
+      "after_depth_mm": 25.70777780897658,
+      "after_angle_rad": 0.026965095657430087,
+      "after_clearance_mm": 0.8186609203013409,
+      "after_pad_N": [
+        [
+          16.531100238062596,
+          18.302843284974387
+        ],
+        [
+          17.68089188770184,
+          18.906643185982208
+        ]
+      ],
+      "policy": "spatial_ppo_scratch",
+      "x_command_mm": 0.0
+    }
+  ],
+  "probe_travel_mm": 3.0,
+  "native_check_times_ms": [
+    340,
+    460
+  ],
+  "clearance_requirement_mm": 0.1,
+  "cohort": "FRESH, 32 held-out grasps, 3 mm external probe",
+  "display_wall_index": 0,
+  "display": "Synchronized native robot views and enlarged shaft cross-sections at both faces of the same socket wall. All four endpoint clearances in the caption are the native minima. Geometry is drawn in the socket frame. Negative clearance means geometric overlap.",
+  "all_archived_endpoint_fields_verified": true
+}

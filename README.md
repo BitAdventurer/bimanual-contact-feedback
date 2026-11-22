@@ -4,7 +4,7 @@ Chang-Hoon Ji, Yu-Kyum Kang, Ji-Young Hwang, and Tae-Eui Kam · Department of Ar
 
 [Paper (5-page PDF)](paper/bimanual_contact_feedback.pdf) · [Watch the probe comparison](#what-the-pressure-maps-changed) · [Partner-motion results](#partner-motion-results) · [External-probe results (Table I)](#table-i-external-probe-in-fig-1c) · [Matched replays](#matched-replays)
 
-The pin starts partly inserted. Arm A holds the pin and arm B holds the socket. Can B keep the pin engaged by choosing its next correction after contact changes? In Fig. 1(b), A shifts the pin or holds between B's two decisions. In Fig. 1(c), A is braced and an external probe loads the pin. B always releases along Y and chooses how far to move along X, including zero.
+The pin starts partly inserted. Arm A holds the pin and arm B holds the socket. Can B keep the pin engaged by choosing its next correction after contact changes? In Fig. 1(b), A shifts the pin or holds between B's two decisions. In Fig. 1(c), the pin arm is braced. A probe changes which side of the pin is loaded while both arms follow the same commands. Can the socket arm tell when a sideways correction would help?
 
 ### Watch the socket correction
 
@@ -45,13 +45,20 @@ The material test uses 64 initial draws from two held-out grasps, each tested un
 
 ## When spatial tactile feedback helps
 
-In Fig. 1(c), both arms receive identical commands across probe conditions up to B's decision. A stays braced while the probe presses the pin from either side or remains parked. B then unloads along Y and chooses one of five X offsets. We compare B's six-axis wrist wrench and both hands' total loads with the same inputs plus a fingertip pressure map for each hand.
-
 ### What the pressure maps changed
 
-<p align="center"><a href="paper/media/probe-policy-comparison.mp4"><img src="paper/media/probe-policy-comparison.gif" width="700" alt="Same grasp and probe, with the same planned Y release. The wrist-and-loads PPO adds 3 mm along X and fails; the PPO with spatial maps chooses zero X offset and retains insertion."></a></p>
+**Why press the pin?** In Fig. 1(b), the pin arm moves and the contact changes with it. In Fig. 1(c), we brace the pin arm and use a probe to press either side of the partly inserted pin, or leave the probe parked. Both arms receive the same commands up to the socket arm's decision. This lets us ask whether the socket arm can sense when a sideways correction will open a gap and when it will press the pin against a wall.
 
-**External probe, Fig. 1(c).** Both socket policies execute the planned release along Y. Watch what they add along X. With wrist wrench and total loads, PPO commands **+3 mm** and loses wall clearance. With the spatial pressure maps added, PPO commands **0 mm** and retains insertion at both checks. The final gaps are **−0.122 mm** and **+0.819 mm**, respectively. This is one of 27 such recoveries in the 3 mm probe cohort. [Full-size video](paper/media/probe-policy-comparison.mp4) · [Matched branch measurements](paper/media/probe-policy-comparison.json)
+<p align="center"><a href="paper/media/probe-policy-comparison.mp4"><img src="paper/media/probe-policy-comparison.gif" width="700" alt="A probe presses the pin while the pin arm is braced. Two PPO policies then replay that same loaded grasp. Both release along Y. Adding 3 mm along X closes the gap; zero lateral correction preserves it."></a></p>
+
+**Watch the gap as the socket releases.** The clip first shows the probe loading the pin. The split screen then replays **that same push** with two trained policies. Both execute the planned 6.5 mm release along Y. The PPO policy using wrist wrench and both hands' total loads adds 3 mm along X and loses clearance. The policy also given the fingertip pressure maps adds 0 mm and keeps the pin engaged. [Full-size video](paper/media/probe-policy-comparison.mp4)
+
+**Would always skipping the sideways move work?** We replayed the same starting grasp with the probe pressing from the opposite side. Now +3 mm was the only one of the five offsets that kept the pin engaged. Each cell below gives the final signed wall clearance. Pass or fail uses the full insertion criteria at both checks. [Matched measurements](paper/media/probe-policy-comparison.json)
+
+| Where the probe pressed this grasp | Release with no X correction | Same release with +3 mm along X |
+| --- | ---: | ---: |
+| Side shown in the film | **Pass · +0.819 mm** | Fail · −0.122 mm |
+| Opposite side | Fail · −0.422 mm | **Pass · +1.058 mm** |
 
 ### Table I. External probe in Fig. 1(c)
 
